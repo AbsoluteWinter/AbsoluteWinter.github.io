@@ -2,45 +2,53 @@
 	<h1 align="center">
 		<img src="images/repository-image-crop.png" alt="absfuyu"/>
 	</h1>
-  <p align="center">
-	<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/dm/absfuyu?style=flat-square" alt="pypi"/></a>
-	<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/v/absfuyu?style=flat-square" /></a>
-	<a><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" /></a>
-	  
-  </p>
+	<p align="center">
+		<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/dm/absfuyu?style=flat-square" alt="pypi"/></a>
+		<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/v/absfuyu?style=flat-square" /></a>
+		<a><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" /></a>
+	</p>
+  	<h2 align="center">
+  		<strong>DOCUMENTATION</strong>
+	</h2>
 </div>
+
 ---
 
-
+## **SUMMARY:**
 *TL;DR: A collection of code*
 
 
-## INSTALLATION:
+## **INSTALLATION:**
 
 ```bash
 pip install -U absfuyu
 ```
 
-[Extra version:](https://pypi.org/project/absfuyuEX/)
+### [**Extra version:**](https://pypi.org/project/absfuyuEX/)
 ```bash
 pip install -U absfuyuEX
 ```
 
-## USAGE:
+## **USAGE:**
 
-Help
+### Built-in Help:
 ```python
 import absfuyu
 absfuyu.help()
 ```
 
-Import specific module
+### Python's Help function:
 ```python
-from absfuyu import calculation
+help(absfuyu)
+```
+
+### Import specific module:
+```python
+from absfuyu import <module_name>
 ```
 
 
-## LIST:
+## [**MODULE LIST: (click me for more)**](pages/module_list.md)
 ```
 calculation: use to calculate small thing
 data: some common data
@@ -55,21 +63,8 @@ util: some random utilities
 ```
 
 
-## EXAMPLE:
 
-```python
-import absfuyu as ab
-# generate a random password
-print("".join(ab.generator.randStrGen(20,1,"full")))
-"""
-# or
-from absfuyu import generator as gen
-print("".join(gen.randStrGen(20,1,"full")))
-"""
-```
-
-
-## LICENSE:
+## **LICENSE:**
 ```
 MIT License
 
