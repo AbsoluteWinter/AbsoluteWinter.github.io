@@ -1,0 +1,1 @@
+[absfuyu's documentation](absfuyu/index.md)
