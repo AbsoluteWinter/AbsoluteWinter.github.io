@@ -9,3 +9,87 @@
 	  
   </p>
 </div>
+---
+
+
+*TL;DR: A collection of code*
+
+
+## INSTALLATION:
+
+```bash
+pip install -U absfuyu
+```
+
+[Extra version:](https://pypi.org/project/absfuyuEX/)
+```bash
+pip install -U absfuyuEX
+```
+
+## USAGE:
+
+Help
+```python
+import absfuyu
+absfuyu.help()
+```
+
+Import specific module
+```python
+from absfuyu import calculation
+```
+
+
+## LIST:
+```
+calculation: use to calculate small thing
+data: some common data
+fibonacci: fibonacci stuff
+generator: generate stuff
+lists: some list method
+obfuscator: it does what it said
+sort: just sort
+stats: basic statistic
+strings: some string method
+util: some random utilities
+```
+
+
+## EXAMPLE:
+
+```python
+import absfuyu as ab
+# generate a random password
+print("".join(ab.generator.randStrGen(20,1,"full")))
+"""
+# or
+from absfuyu import generator as gen
+print("".join(gen.randStrGen(20,1,"full")))
+"""
+```
+
+
+## LICENSE:
+```
+MIT License
+
+Copyright (c) 2022 AbsoluteWinter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
