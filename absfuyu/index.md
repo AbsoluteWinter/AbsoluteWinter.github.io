@@ -48,7 +48,7 @@ from absfuyu import <module_name>
 ```
 
 
-## [**MODULE LIST: (click me for more)**](pages/module_list.md)
+## **MODULE LIST:**
 ```
 calculation: use to calculate small thing
 data: some common data
@@ -62,6 +62,9 @@ strings: some string method
 util: some random utilities
 ```
 
+## **CONTINUE READING:**
+
+- [Module Documentation](pages/module_list.md)
 
 
 ## **LICENSE:**
