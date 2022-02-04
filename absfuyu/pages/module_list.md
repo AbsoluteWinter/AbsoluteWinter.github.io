@@ -215,7 +215,7 @@ from absfuyu import fibonacci as fib
 ### Functions:
 ```python
 fib.fibonacci()			# Return k-th fibonacci
-fib.fibonacci_list()	# Return 0-th to k-th fibonacci
+fib.fibonacci_list()		# Return 0-th to k-th fibonacci
 ```
 
 <br>
@@ -235,7 +235,7 @@ from absfuyu import fun
 ```python
 # class
 fun.Game.escapeLoop()			# Game 01
-fun.Game.RockPaperScissors()	# Game 02
+fun.Game.RockPaperScissors()		# Game 02
 
 # Function
 fun.force_shutdown()			# Force computer to shutdown
@@ -259,7 +259,7 @@ from absfuyu import obfuscator as ob
 ```python
 ob.toSingleLine()		# Convert multiple lines of code into one single line
 ob.obfuscate()			# Obfuscate code
-ob.toTxt()				# Export .txt file
+ob.toTxt()			# Export .txt file
 ```
 
 ### Example:
@@ -369,8 +369,8 @@ stats.median()			# Calculate median
 stats.mode()			# Calculate mode
 stats.percentile()		# Calculate percentile
 
-stats.var()				# Calculate variance
-stats.std()				# Calculate standard deviation
+stats.var()			# Calculate variance
+stats.std()			# Calculate standard deviation
 
 stats.summary()			# Show summary (mean, median, mode, min, max, ...)
 ```
