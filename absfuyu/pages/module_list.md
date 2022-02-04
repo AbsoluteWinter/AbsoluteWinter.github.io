@@ -15,6 +15,21 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 
 <br>
 
+
+|**Table of content** | |
+| :---:| :---: |
+|**Default Module**|**Additional Module**|
+|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|
+|[`data`](#data)|[`fun`](#fun)|
+|[`generator`](#generator)|[`obfuscator`](#obfuscator)|
+|[`lists`](#lists)|[`pkg_data`](#pkgdata)|
+|[`strings`](#strings)|[`sort`](#sort)|
+|[`util`](#util)|[`stats`](#stats)|
+
+
+
+<br>
+
 # **Default Module:**
 
 ## **calculation:**
@@ -164,7 +179,8 @@ from absfuyu import fibonacci as fib
 
 ### Functions:
 ```python
-
+fib.fibonacci()					# Return k-th fibonacci
+fib.fibonacci_list()			# Return 0-th to k-th fibonacci
 ```
 
 <br>
@@ -182,7 +198,13 @@ from absfuyu import fun
 
 ### Functions:
 ```python
+# class
+fun.Game.escapeLoop()				# Game 01
+fun.Game.RockPaperScissors()		# Game 02
 
+# Function
+fun.force_shutdown()				# Force computer to shutdown
+fun.happy_new_year()				# Try it
 ```
 
 <br>
@@ -200,7 +222,9 @@ from absfuyu import obfuscator as ob
 
 ### Functions:
 ```python
-
+ob.toSingleLine()			# Convert multiple lines of code into one single line
+ob.obfuscate()				# Obfuscate code
+ob.toTxt()					# Export .txt file
 ```
 
 <br>
@@ -213,11 +237,12 @@ from absfuyu import obfuscator as ob
 
 ```python
 from absfuyu import pkg_data
+pkg_data.loadData(<data_name>)
 ```
 
-### Functions:
+### List of available data:
 ```python
-
+None
 ```
 
 <br>
@@ -225,7 +250,6 @@ from absfuyu import pkg_data
 ## **sort:**
 
 *just sort*
-
 
 ### Usage:
 
@@ -235,7 +259,8 @@ from absfuyu import sort
 
 ### Functions:
 ```python
-
+sort.selection_sort()			# Sort
+sort.insertion_sort()			# Sort
 ```
 
 <br>
@@ -252,7 +277,15 @@ from absfuyu import stats
 
 ### Functions:
 ```python
+stats.mean()				# Calculate average
+stats.median()				# Calculate median
+stats.mode()				# Calculate mode
+stats.percentile()			# Calculate percentile
 
+stats.var()					# Calculate variance
+stats.std()					# Calculate standard deviation
+
+stats.summary()				# Show summary (mean, median, mode, min, max, ...)
 ```
 
 <br>
