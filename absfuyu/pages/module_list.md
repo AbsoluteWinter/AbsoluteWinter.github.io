@@ -16,9 +16,8 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 <br>
 
 
-|**Table of content** | |
-| :---:| :---: |
 |**Default Module**|**Additional Module**|
+| :---:| :---: |
 |[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|
 |[`data`](#data)|[`fun`](#fun)|
 |[`generator`](#generator)|[`obfuscator`](#obfuscator)|
