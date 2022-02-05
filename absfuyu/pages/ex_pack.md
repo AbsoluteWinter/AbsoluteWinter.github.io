@@ -15,7 +15,7 @@ pip install -U absfuyu[<package_option>]
 
 ## **LIST OF PACKAGE:**
 
-### dev:
+### **dev:**
 
 ```bash
 pip install -U absfuyu[dev]
@@ -28,7 +28,7 @@ pip install -U absfuyu[dev]
 <br>
 
 
-### extra:
+### **extra:**
 
 ```bash
 pip install -U absfuyu[extra]
@@ -40,7 +40,7 @@ pip install -U absfuyu[extra]
 
 <br>
 
-### all:
+### **all:**
 
 ```bash
 pip install -U absfuyu[all]
@@ -48,4 +48,4 @@ pip install -U absfuyu[all]
 
 **Feature:**
 
-- Everything `absfuyu` has to offer!
+- Everything [`absfuyu`](../index.md) has to offer!
