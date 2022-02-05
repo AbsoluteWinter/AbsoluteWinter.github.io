@@ -16,14 +16,15 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 <br>
 
 
-|**Default Module**|**Additional Module**|
-| :---:| :---: |
-|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|
-|[`data`](#data)|[`fun`](#fun)|
-|[`generator`](#generator)|[`obfuscator`](#obfuscator)|
-|[`lists`](#lists)|[`pkg_data`](#pkgdata)|
-|[`strings`](#strings)|[`sort`](#sort)|
-|[`util`](#util)|[`stats`](#stats)|
+|**Default Module**|**Additional Module**|**Other**|
+| :---:| :---: | :---: |
+|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`dev`](#dev)|
+|[`data`](#data)|[`fun`](#fun)||
+|[`generator`](#generator)|[`obfuscator`](#obfuscator)||
+|[`lists`](#lists)|[`pkg_data`](#pkgdata)||
+|[`strings`](#strings)|[`sort`](#sort)||
+|[`util`](#util)|[`stats`](#stats)||
+||[`extra`](#extra)||
 
 
 
@@ -378,7 +379,25 @@ stats.summary()			# Show summary (mean, median, mode, min, max, ...)
 <br>
 
 
-# **Extra Module:**
+
+## **extra:**
+
+*basic statistic*
+
+### Usage:
+
+```python
+from absfuyu import extra
+```
+
+### Functions:
+```python
+extra.happy_new_year()		# Improved. Tried it ;)
+```
+
+<br>
+
+# **Other Module:**
 
 ## **dev:**
 

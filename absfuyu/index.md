@@ -24,11 +24,6 @@
 pip install -U absfuyu
 ```
 
-### [**Extra version:**](https://pypi.org/project/absfuyuEX/)
-```bash
-pip install -U absfuyuEX
-```
-
 ## **USAGE:**
 
 ### Built-in Help:
@@ -60,11 +55,13 @@ sort: just sort
 stats: basic statistic
 strings: some string method
 util: some random utilities
+...
 ```
 
 ## **CONTINUE READING:**
 
 - [Module Documentation](pages/module_list.md)
+- [Extra packages](pages/ex_pack.md)
 
 
 ## **LICENSE:**
