@@ -19,7 +19,7 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 |**Default Module**|**Additional Module**|**Other**|
 | :---:| :---: | :---: |
 |[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`dev`](#dev)|
-|[`data`](#data)|[`fun`](#fun)||
+|[`data`](#data)|[`fun`](#fun)|[`config`](#config)|
 |[`generator`](#generator)|[`obfuscator`](#obfuscator)||
 |[`lists`](#lists)|[`pkg_data`](#pkgdata)||
 |[`strings`](#strings)|[`sort`](#sort)||
@@ -52,6 +52,8 @@ cal.lsum()          # Calculate total value in a list
 cal.lavg()          # Calculate average value in a list
 
 cal.matsum()        # Calculate total value in a matrix
+
+cal.lcm()			# Calculate least common multiple
 ```
 ### Example:
 ```python
@@ -407,4 +409,15 @@ extra.happy_new_year()		# Improved. Tried it ;)
 
 ```python
 from absfuyu import dev
+```
+
+
+## **config:**
+
+*Module configuration*
+
+### Usage:
+
+```python
+from absfuyu import config
 ```
