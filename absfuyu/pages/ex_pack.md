@@ -11,6 +11,8 @@
 pip install -U absfuyu[<package_option>]
 ```
 
+<br>
+
 ## **LIST OF PACKAGE:**
 
 ### dev:
@@ -19,15 +21,31 @@ pip install -U absfuyu[<package_option>]
 pip install -U absfuyu[dev]
 ```
 
+**Feature:**
+
+- `check_for_update()`
+
+<br>
+
+
 ### extra:
 
 ```bash
 pip install -U absfuyu[extra]
 ```
 
+**Feature:**
+
+- Coming soon
+
+<br>
 
 ### all:
 
 ```bash
 pip install -U absfuyu[all]
 ```
+
+**Feature:**
+
+- Everything `absfuyu` has to offer!
