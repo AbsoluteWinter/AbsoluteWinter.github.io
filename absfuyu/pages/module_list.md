@@ -53,7 +53,7 @@ cal.lavg()          # Calculate average value in a list
 
 cal.matsum()        # Calculate total value in a matrix
 
-cal.lcm()			# Calculate least common multiple
+cal.lcm()	    # Calculate least common multiple
 ```
 ### Example:
 ```python
