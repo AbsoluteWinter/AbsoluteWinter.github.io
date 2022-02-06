@@ -22,7 +22,7 @@
 ## **INSTALLATION:**
 
 ```bash
-pip install -U absfuyu
+$ pip install -U absfuyu
 ```
 
 
@@ -52,15 +52,12 @@ from absfuyu import <module_name>
 ```
 calculation: use to calculate small thing
 data: some common data
-fibonacci: fibonacci stuff
 generator: generate stuff
 lists: some list method
-obfuscator: it does what it said
-sort: just sort
-stats: basic statistic
 strings: some string method
 util: some random utilities
 ...
+and more
 ```
 
 

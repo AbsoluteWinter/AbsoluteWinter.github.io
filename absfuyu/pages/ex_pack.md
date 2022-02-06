@@ -15,15 +15,33 @@ pip install -U absfuyu[<package_option>]
 
 ## **LIST OF PACKAGE:**
 
-### **dev:**
+### **cli:**
 
 ```bash
-pip install -U absfuyu[dev]
+$ pip install -U absfuyu[cli]
 ```
 
 **Feature:**
 
-- `check_for_update()`
+- Command line interface
+
+**Usage:**
+
+```bash
+$ python -m absfuyu --help
+```
+
+<br>
+
+### **dev:**
+
+```bash
+$ pip install -U absfuyu[dev]
+```
+
+**Feature:**
+
+- Coming soon
 
 <br>
 
@@ -31,7 +49,7 @@ pip install -U absfuyu[dev]
 ### **extra:**
 
 ```bash
-pip install -U absfuyu[extra]
+$ pip install -U absfuyu[extra]
 ```
 
 **Feature:**
@@ -43,7 +61,7 @@ pip install -U absfuyu[extra]
 ### **all:**
 
 ```bash
-pip install -U absfuyu[all]
+$ pip install -U absfuyu[all]
 ```
 
 **Feature:**
