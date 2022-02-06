@@ -17,12 +17,16 @@
 ## **SUMMARY:**
 *TL;DR: A collection of code*
 
+<br>
 
 ## **INSTALLATION:**
 
 ```bash
 pip install -U absfuyu
 ```
+
+
+<br>
 
 ## **USAGE:**
 
@@ -42,6 +46,7 @@ help(absfuyu)
 from absfuyu import <module_name>
 ```
 
+<br>
 
 ## **MODULE LIST:**
 ```
@@ -58,11 +63,15 @@ util: some random utilities
 ...
 ```
 
+
+<br>
+
 ## **CONTINUE READING:**
 
 - [Module Documentation](pages/module_list.md)
 - [Extra packages](pages/ex_pack.md)
 
+<br>
 
 ## **LICENSE:**
 ```
