@@ -239,7 +239,7 @@ from absfuyu import fun
 ```python
 # game
 fun.game_escapeLoop()			# Game 01
-fun.game_RockPaperScissors()	# Game 02
+fun.game_RockPaperScissors()		# Game 02
 
 # Function
 fun.force_shutdown()			# Force computer to shutdown
@@ -417,7 +417,7 @@ from absfuyu import config
 
 ### Functions:
 ```python
-config.change_cfg()		# It does what it said
+config.change_cfg()			# It does what it said
 config.show_cfg()			# It does what it said
 config.reset_cfg()			# It does what it said
 ```
