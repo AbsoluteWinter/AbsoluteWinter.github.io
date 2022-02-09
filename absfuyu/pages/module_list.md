@@ -25,6 +25,7 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 |[`strings`](#strings)|[`sort`](#sort)||
 |[`util`](#util)|[`stats`](#stats)||
 ||[`extra`](#extra)||
+||[`dicts`](#dicts)||
 
 
 
@@ -236,9 +237,9 @@ from absfuyu import fun
 
 ### Functions:
 ```python
-# class
-fun.Game.escapeLoop()			# Game 01
-fun.Game.RockPaperScissors()		# Game 02
+# game
+fun.game_escapeLoop()			# Game 01
+fun.game_RockPaperScissors()	# Game 02
 
 # Function
 fun.force_shutdown()			# Force computer to shutdown
@@ -351,11 +352,31 @@ stats.summary()			# Show summary (mean, median, mode, min, max, ...)
 
 <br>
 
+## **dicts:**
+
+*some dict methods*
+
+### Usage:
+
+```python
+from absfuyu import dicts
+```
+
+### Functions:
+```python
+dicts.dict_int_analyze()		# Analyze a dict
+```
+
+<br>
 
 
 ## **extra:**
 
-*basic statistic*
+*more features*
+
+### Required:
+
+- absfuyu[extra]
 
 ### Usage:
 
