@@ -415,6 +415,13 @@ from absfuyu import dev
 from absfuyu import config
 ```
 
+### Functions:
+```python
+config.change_cfg()		# It does what it said
+config.show_cfg()			# It does what it said
+config.reset_cfg()			# It does what it said
+```
+
 ### Config option:
 ```json
 "luckgod-mode": false
