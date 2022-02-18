@@ -19,12 +19,13 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 |**Default Module**|**Additional Module**|**Other**|
 | :---:| :---: | :---: |
 |[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`config`](#config)|
-|[`data`](#data)|[`fun`](#fun)||
+|[`data`](#data)|[`fun`](#fun)|[`beautiful`](#beautiful)|
 |[`generator`](#generator)|[`obfuscator`](#obfuscator)||
 |[`lists`](#lists)|[`pkg_data`](#pkgdata)||
 |[`strings`](#strings)|[`sort`](#sort)||
 |[`util`](#util)|[`stats`](#stats)||
 ||[`dicts`](#dicts)||
+||[`extra`](#extra)||
 
 
 
@@ -369,6 +370,29 @@ dicts.dict_int_analyze()		# Analyze a dict
 <br>
 
 
+
+## **extra:**
+
+*more features*
+
+### Required:
+
+- absfuyu[extra]
+
+### Usage:
+
+```python
+from absfuyu import extra
+```
+
+### Functions:
+```python
+extra.happy_new_year()		# Improved. Tried it ;)
+```
+
+<br>
+
+
 # **Other Module:**
 
 
@@ -387,6 +411,31 @@ from absfuyu import config
 config.change_cfg()			# It does what it said
 config.show_cfg()			# It does what it said
 config.reset_cfg()			# It does what it said
+```
+
+### Config option:
+```json
+"auto-install-extra": false
+"luckgod-mode": false
+```
+
+<br>
+
+## **beautiful:**
+
+*Make output more beautiful*
+
+### Usage:
+
+```python
+from absfuyu import beautiful
+```
+
+### Functions:
+```python
+beautiful.beautiful_output()		# Decorator
+beautiful.print()				# Print wrapper
+beautiful.demo()				# Demo
 ```
 
 ### Config option:
