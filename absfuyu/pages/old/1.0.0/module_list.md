@@ -18,12 +18,13 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 
 |**Default Module**|**Additional Module**|**Other**|
 | :---:| :---: | :---: |
-|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`config`](#config)|
-|[`data`](#data)|[`fun`](#fun)||
+|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`dev`](#dev)|
+|[`data`](#data)|[`fun`](#fun)|[`config`](#config)|
 |[`generator`](#generator)|[`obfuscator`](#obfuscator)||
 |[`lists`](#lists)|[`pkg_data`](#pkgdata)||
 |[`strings`](#strings)|[`sort`](#sort)||
 |[`util`](#util)|[`stats`](#stats)||
+||[`extra`](#extra)||
 ||[`dicts`](#dicts)||
 
 
@@ -369,8 +370,40 @@ dicts.dict_int_analyze()		# Analyze a dict
 <br>
 
 
+## **extra:**
+
+*more features*
+
+### Required:
+
+- absfuyu[extra]
+
+### Usage:
+
+```python
+from absfuyu import extra
+```
+
+### Functions:
+```python
+extra.happy_new_year()		# Improved. Tried it ;)
+```
+
+<br>
+
 # **Other Module:**
 
+## **dev:**
+
+*Experimental features*
+
+### Usage:
+
+```python
+from absfuyu import dev
+```
+
+<br>
 
 ## **config:**
 
@@ -391,6 +424,5 @@ config.reset_cfg()			# It does what it said
 
 ### Config option:
 ```json
-"auto-install-extra": false
 "luckgod-mode": false
 ```
