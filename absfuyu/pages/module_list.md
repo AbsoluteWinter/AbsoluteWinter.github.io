@@ -195,7 +195,7 @@ from absfuyu import util
 util.toCelcius()                # Convert Celcius degree to Fahrenheit degree
 util.toFahrenheit()             # Convert Fahrenheit degree to Celcius degree
 
-util.reverse_number()			# Reverse a number
+util.reverse_number()		# Reverse a number
 
 util.unique_list()              # Remove duplicate items in list
 
