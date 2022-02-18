@@ -15,6 +15,8 @@ pip install -U absfuyu[<package_option>]
 
 ## **LIST OF PACKAGE:**
 
+[`cli`](#cli), [`beautiful`](#beautiful), [`dev`](#dev), [`extra`](#extra), [`test`](#test), [`fixers`](#fixers), [`all`](#all)
+
 ### **cli:**
 
 ```bash
@@ -30,8 +32,26 @@ $ pip install -U absfuyu[cli]
 ```bash
 $ python -m absfuyu --help
 ```
+or
+```bash
+$ fuyu --help
+```
 
 <br>
+
+
+### **beautiful:**
+
+```bash
+$ pip install -U absfuyu[beautiful]
+```
+
+**Feature:**
+
+- A decorator that beautify console output
+
+<br>
+
 
 ### **dev:**
 
@@ -41,7 +61,7 @@ $ pip install -U absfuyu[dev]
 
 **Feature:**
 
-- Coming soon
+- For package developer
 
 <br>
 
@@ -57,6 +77,32 @@ $ pip install -U absfuyu[extra]
 - Coming soon
 
 <br>
+
+
+### **test:**
+
+```bash
+$ pip install -U absfuyu[test]
+```
+
+**Feature:**
+
+- `[DEV]`: Use to test this package
+
+<br>
+
+### **fixers:**
+
+```bash
+$ pip install -U absfuyu[fixers]
+```
+
+**Feature:**
+
+- `[DEV]`: Use to make code easier to read
+
+<br>
+
 
 ### **all:**
 

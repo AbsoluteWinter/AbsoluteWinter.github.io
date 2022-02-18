@@ -66,4 +66,4 @@ $ pip install -U absfuyu[all]
 
 **Feature:**
 
-- Everything [`absfuyu`](../index.md) has to offer!
+- Everything [`absfuyu`](../../../index.md) has to offer!
