@@ -4,7 +4,7 @@
 	</h1>
 </div>
 
-By default, [`absfuyu`](../index.md) already imported:<br>
+By default, [`absfuyu`](../../../index.md) already imported:<br>
 [`calculation`](#calculation),
 [`data`](#data),
 [`generator`](#generator),

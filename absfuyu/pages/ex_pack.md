@@ -8,7 +8,7 @@
 ## **INSTALLATION:**
 
 ```bash
-pip install -U absfuyu[<package_option>]
+$ pip install -U absfuyu[<package_option>]
 ```
 
 <br>
@@ -74,7 +74,7 @@ $ pip install -U absfuyu[extra]
 
 **Feature:**
 
-- Coming soon
+- Extra features. Coming soon
 
 <br>
 
