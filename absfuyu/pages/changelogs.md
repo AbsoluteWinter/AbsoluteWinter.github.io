@@ -2,7 +2,19 @@
   	<h1 align="center">
   		<strong>ABSFUYU'S CHANGELOGS</strong>
 	</h1>
+	<p align="center">
+		<h2>
+			New functions
+		</h2>
+	</p>
 </div>
+
+
+# **1.2.0**
+
+- `util.reverse_number()`
+
+<br>
 
 # **1.1.0**
 
