@@ -434,8 +434,8 @@ from absfuyu import beautiful
 ### Functions:
 ```python
 beautiful.beautiful_output()		# Decorator
-beautiful.print()				# Print wrapper
-beautiful.demo()				# Demo
+beautiful.print()			# Print wrapper
+beautiful.demo()			# Demo
 ```
 
 ### Config option:
