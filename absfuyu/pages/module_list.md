@@ -433,7 +433,7 @@ from absfuyu import beautiful
 
 ### Functions:
 ```python
-beautiful.beautiful_output()		# Decorator
+@beautiful.beautiful_output()		# Decorator
 beautiful.print()			# Print wrapper
 beautiful.demo()			# Demo
 ```
