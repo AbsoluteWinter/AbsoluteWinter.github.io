@@ -4,7 +4,7 @@
 	</h1>
 </div>
 
-By default, [`absfuyu`](../index.md) already imported:<br>
+By default, [`absfuyu`](../../../index.md) already imported:<br>
 [`calculation`](#calculation),
 [`data`](#data),
 [`generator`](#generator),
@@ -16,15 +16,16 @@ By default, [`absfuyu`](../index.md) already imported:<br>
 <br>
 
 
-|**Default Module**|**Additional Module**|**Other**|**Extensions**|
-| :---:| :---: | :---: |:---: |
-|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`config`](#config)|[`beautiful`](#beautiful)|
-|[`data`](#data)|[`fun`](#fun)||[`extra`](#extra)|
+|**Default Module**|**Additional Module**|**Other**|
+| :---:| :---: | :---: |
+|[`calculation`](#calculation)|[`fibonacci`](#fibonacci)|[`config`](#config)|
+|[`data`](#data)|[`fun`](#fun)|[`beautiful`](#beautiful)|
 |[`generator`](#generator)|[`obfuscator`](#obfuscator)||
 |[`lists`](#lists)|[`pkg_data`](#pkgdata)||
 |[`strings`](#strings)|[`sort`](#sort)||
 |[`util`](#util)|[`stats`](#stats)||
 ||[`dicts`](#dicts)||
+||[`extra`](#extra)||
 
 
 
@@ -370,6 +371,27 @@ dicts.dict_int_analyze()		# Analyze a dict
 
 
 
+## **extra:**
+
+*more features*
+
+### Required:
+
+- absfuyu[extra]
+
+### Usage:
+
+```python
+from absfuyu import extra
+```
+
+### Functions:
+```python
+extra.happy_new_year()		# Improved. Tried it ;)
+```
+
+<br>
+
 
 # **Other Module:**
 
@@ -399,11 +421,6 @@ config.reset_cfg()			# It does what it said
 
 <br>
 
-
-
-# **Extensions Module:**
-
-
 ## **beautiful:**
 
 *Make output more beautiful*
@@ -411,7 +428,7 @@ config.reset_cfg()			# It does what it said
 ### Usage:
 
 ```python
-from absfuyu.extensions import beautiful
+from absfuyu import beautiful
 ```
 
 ### Functions:
@@ -426,27 +443,3 @@ beautiful.demo()			# Demo
 "auto-install-extra": false
 "luckgod-mode": false
 ```
-
-<br>
-
-
-## **extra:**
-
-*more features*
-
-### Required:
-
-- absfuyu[extra]
-
-### Usage:
-
-```python
-from absfuyu.extensions import extra
-```
-
-### Functions:
-```python
-extra.happy_new_year()		# Improved. Tried it ;)
-```
-
-<br>

@@ -8,7 +8,7 @@
 		<a><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" /></a>
 	</p>
   	<h2 align="center">
-  		<strong>VERSION 1.1.x DOCUMENTATION</strong>
+  		<strong>VERSION 1.2.x DOCUMENTATION [W.I.P]</strong>
 	</h2>
 </div>
 
