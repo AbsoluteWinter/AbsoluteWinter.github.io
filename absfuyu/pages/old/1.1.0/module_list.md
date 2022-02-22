@@ -437,9 +437,3 @@ from absfuyu import beautiful
 beautiful.print()			# Print wrapper
 beautiful.demo()			# Demo
 ```
-
-### Config option:
-```json
-"auto-install-extra": false
-"luckgod-mode": false
-```

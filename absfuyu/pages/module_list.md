@@ -423,11 +423,6 @@ beautiful.print()			# Print wrapper
 beautiful.demo()			# Demo
 ```
 
-### Config option:
-```json
-"auto-install-extra": false
-"luckgod-mode": false
-```
 
 <br>
 
