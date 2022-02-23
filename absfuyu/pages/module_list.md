@@ -238,13 +238,14 @@ from absfuyu import fun
 
 ### Functions:
 ```python
-# game
+# Game
 fun.game_escapeLoop()			# Game 01
 fun.game_RockPaperScissors()		# Game 02
 
 # Function
 fun.force_shutdown()			# Force computer to shutdown
 fun.happy_new_year()			# Try it
+fun.im_bored()				# Get data from imbored api
 ```
 
 <br>
