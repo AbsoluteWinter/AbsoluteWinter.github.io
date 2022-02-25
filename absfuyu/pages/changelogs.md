@@ -14,6 +14,8 @@
 
 - `fun.im_bored()` 
 
+<br>
+
 # **1.2.0**
 
 - `util.reverse_number()`
