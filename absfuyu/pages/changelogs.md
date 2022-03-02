@@ -9,8 +9,16 @@
 	</p>
 </div>
 
-# **1.3.0**
+# **1.4.0**
 
+- `dicts.dict_int_analyze_fast()`
+- `fun.zodiac_sign()`
+- `tictactoe` game (can be played with `[cli]`)
+- `$ fuyu do advice` cmd
+
+<br>
+
+# **1.3.0**
 
 - `fun.im_bored()` 
 

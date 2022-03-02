@@ -246,6 +246,7 @@ fun.game_RockPaperScissors()		# Game 02
 fun.force_shutdown()			# Force computer to shutdown
 fun.happy_new_year()			# Try it
 fun.im_bored()				# Get data from imbored api
+fun.zodiac_sign()			# Calculate zodiac sign
 ```
 
 <br>
