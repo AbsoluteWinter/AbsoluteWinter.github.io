@@ -368,7 +368,7 @@ from absfuyu import dicts
 ### Functions:
 ```python
 dicts.dict_int_analyze()		# Analyze a dict
-dicts.dict_int_analyze_fast()	# Analyze a dict but faster (i guess)
+dicts.dict_int_analyze_fast()		# Analyze a dict but faster (i guess)
 ```
 
 <br>
