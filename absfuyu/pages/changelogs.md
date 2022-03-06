@@ -9,6 +9,13 @@
 	</p>
 </div>
 
+# **1.5.0**
+
+- `game` module
+
+<br>
+
+
 # **1.4.0**
 
 - `dicts.dict_int_analyze_fast()`
