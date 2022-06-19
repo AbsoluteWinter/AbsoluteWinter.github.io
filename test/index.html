@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Testing</title>
+		<!--<link rel="stylesheet" type="text/css" href="style.css">-->
+		<style>
+			body {
+				font-family: arial;
+			}
+
+			.main {
+				text-align: center;
+				margin: auto;
+				padding: 5px;
+			}
+
+			.close {
+				margin: 0px;
+			}
+
+			.game {
+				text-align: center;
+			}
+
+			.blank {
+				margin-bottom: 5%;
+			}
+
+			.textview {
+				font-size: 30px;
+				text-align: center;
+				margin: 0px;
+			}
+		</style>
+		<script>
+			function random() {
+				var pbutton = document.getElementById("press");
+				var lame = document.getElementById("lame");
+				var notlame = document.getElementById("notlame");
+				var result = Math.floor((Math.random() * 100) + 1);
+				
+				if (result < 10){
+					notlame.style.display = "block";
+					lame.style.display = "none";
+				} else {
+					notlame.style.display = "none";
+					lame.style.display = "block";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div class="main">
+			<h1 class="main">YES or NO</h1>
+			<p>________________________</p>
+			<p class="close">Version: 0.0.0.1</p>
+			<p class="close">By: <strong>AbsoluteWinter</strong></p>
+			<p class="close"></p>
+		</div>
+		<div class="blank"><p></p></div>
+		<div class="textview">
+			<p id="lame" style="display: none"><strong>NO</strong></p>
+			<p id="notlame" style="display: none"><strong>YES</strong></p>
+		</div>
+		<div class="game">
+			<button type="button" id="press" onClick="random()"><strong>Click me!</strong></button>
+		</div>
+	</body>
+</html>
