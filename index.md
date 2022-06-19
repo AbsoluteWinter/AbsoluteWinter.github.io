@@ -52,6 +52,6 @@ Web: [https://absolutewinter.github.io/](https://absolutewinter.github.io/)
 
 <div align="center">
 
-# **END**
+<strong>END</strong>
 
 </div>
