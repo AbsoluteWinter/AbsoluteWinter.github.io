@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Panda Clicker v0.0.1</title>
+        <script src="js/main.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+	</head>
+
+	<body>
+        <p><strong>Panda(s): </strong> <span id="score">0</span></p>
+        <span id="scorepersecond">0</span> pandas per second
+        <img src="images/panda.png" height="256px" width="256px" onclick="addToScore(clickingPower)">
+
+        <button onclick="buyUpgrade(cursor)">Cursor [<span id="cursorcost">15</span> -- <span id="cursors">0</span>]</button>
+        <button onclick="buyUpgrade(pandama)">Pandama [<span id="pandamacost">100</span> -- <span id="pandamas">0</span>]</button>
+	</body>
+</html>
