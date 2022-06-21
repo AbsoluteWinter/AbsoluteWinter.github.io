@@ -2,12 +2,13 @@
 
 // Game var
 var score = 0;
-var clickingPower = 1;
+var clickingPower = 100;
 
 // Upgrades
 var cursor = {cost: 15, amount: 0, name: "cursor", multiplier: 1};
 var pandama = {cost: 100, amount: 0, name: "pandama", multiplier: 5};
 var pandahouse = {cost: 1000, amount: 0, name: "pandahouse", multiplier: 10};
+// var allUpgrade = [cursor, pandama, pandahouse]
 
 // Functions
 function buyUpgrade(upgradeName) {
@@ -42,4 +43,5 @@ setInterval(function() {
     score += pandama.amount * pandama.multiplier;
 
     document.getElementById("score").innerHTML = score;
+    document.title = score + " panda - Panda Clicker";
 }, 1000); // 1000ms = 1 second
