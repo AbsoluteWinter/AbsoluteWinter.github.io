@@ -31,7 +31,7 @@
 .clickerContainer img:active { transform: scale(0.99); }
 
 .shopButton {
-    background-color: #b5b5b5;
+    background-color: #bbbbbb;
     transition: all .2s ease-in-out;
     border-radius: 10px;
     width: 100%;
@@ -60,7 +60,7 @@
 .shopButton #amount {
     font-size: 200%;
     font-weight: bold;
-    color: #595959;
+    color: #363636;
     font-family: roboto;
     width: 15%;
 }
@@ -70,4 +70,10 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.sectionFooter {
+    margin-top: 20%;
+    font-size: 130%;
+    font-family: 'Courier New', Courier, monospace;
 }

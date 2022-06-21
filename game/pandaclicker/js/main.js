@@ -31,17 +31,54 @@ function addToScore(amount) {
     document.getElementById("score").innerHTML = score;
 }
 
+function scorePerSecond() {
+    sps = cursor.amount*cursor.multiplier +
+          pandama.amount*pandama.multiplier +
+          pandahouse.amount*pandahouse.multiplier;
+    return sps;
+}
+
 function updateScorePerSecond() {
-    sps = cursor.amount*cursor.multiplier + pandama.amount*pandama.multiplier;
+    sps = scorePerSecond();
     document.getElementById("scorepersecond").innerHTML = sps;
 }
 
+function saveGame() {
+    var gameSave = {
+        score: score,
+        clickingPower: clickingPower,
+        cursor: cursor,
+        pandama: pandama,
+        pandahouse:pandahouse
+    };
+    localStorage.setItem("gameSave". JSON.stringify(gameSave));
+}
+
+function loadGame() {
+    var saveGame = JSON.parse(localStorage.getItem("gameSave"));
+    if (typeof saveGame.score !== "undefined") score = saveGame.score;
+    if (typeof saveGame.clickingPower !== "undefined") clickingPower = saveGame.clickingPower;
+    if (typeof saveGame.cursor !== "undefined") cursor = saveGame.cursor;
+    if (typeof saveGame.pandama !== "undefined") pandama = saveGame.pandama;
+    if (typeof saveGame.pandahouse !== "undefined") pandahouse = saveGame.pandahouse;
+
+}
+
+window.onload = function() {
+    loadGame();
+    updateScorePerSecond();
+};
 
 // Auto add point
 setInterval(function() {
-    score += cursor.amount * cursor.multiplier;
-    score += pandama.amount * pandama.multiplier;
+    score += scorePerSecond();
+    // score += cursor.amount * cursor.multiplier;
+    // score += pandama.amount * pandama.multiplier;
 
     document.getElementById("score").innerHTML = score;
     document.title = score + " panda - Panda Clicker";
 }, 1000); // 1000ms = 1 second
+
+setInterval(function() {
+    saveGame();
+}, 30000);

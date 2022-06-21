@@ -1,14 +1,20 @@
 <!DOCTYPE html>
+
 <html>
+
 	<head>
+
 		<meta charset="utf-8"/>
 		<title>Panda Clicker v0.0.1</title>
 		<script src="js/main.js"></script>
 		<link rel="stylesheet" href="css/style.css">
+
 	</head>
 
 	<body>
+
 		<div class="sectionLeft">
+
 			<center>
 				<div class="scoreContainer unselectable">
 					Panda: <span id="score">0</span></br>
@@ -19,10 +25,19 @@
 					<img src="images/panda.png" height="256px" width="256px" onclick="addToScore(clickingPower)">
 				</div>
 			</center>
+
+			<div class="sectionFooter unselectable">
+				<h4>Panda Clicker v0.0.1</h4>
+				<p>Author: AbsoluteWinter</p>
+				<button onclick="saveGame()">Save Game</button>
+				<!-- <button onclick="loadGame()">Load Game</button> -->
+			</div>
+
 		</div>
 
 		<div class="sectionRight unselectable">
-			<table class="shopButton" onlick="buyUpgrade(cursor)">
+
+			<table class="shopButton" onclick="buyUpgrade(cursor)">
 				<tr>
 					<td id="image"><img scr="/images/cursor.png"></td>
 					<td id="nameAndCost">
@@ -32,8 +47,8 @@
 					<td id="amount"><span id="cursors">0</span></td>
 				</tr>
 			</table>
-			
-			<table class="shopButton" onlick="buyUpgrade(pandama)">
+
+			<table class="shopButton" onclick="buyUpgrade(pandama)">
 				<tr>
 					<td id="image"><img scr="/images/pandama.jpg"></td>
 					<td id="nameAndCost">
@@ -43,8 +58,20 @@
 					<td id="amount"><span id="pandamas">0</span></td>
 				</tr>
 			</table>
-			<!-- <button onclick="buyUpgrade(cursor)">Cursor [<span id="cursorcost">15</span> -- <span id="cursors">0</span>]</button>
-			<button onclick="buyUpgrade(pandama)">Pandama [<span id="pandamacost">100</span> -- <span id="pandamas">0</span>]</button> -->
+
+			<table class="shopButton" onclick="buyUpgrade(pandahouse)">
+				<tr>
+					<td id="image"><img scr="/images/pandama.jpg"></td>
+					<td id="nameAndCost">
+						<p>Panda House</p>
+						<p><span id="pandahousecost">1000</span> panda</p>
+					</td>
+					<td id="amount"><span id="pandahouses">0</span></td>
+				</tr>
+			</table>
+
 		</div>
+
 	</body>
+
 </html>
