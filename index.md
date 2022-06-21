@@ -6,6 +6,7 @@
 
 # 📌 **PROJECT:**
 - [absfuyu](absfuyu/index.md)
+- [Panda Clicker (W.I.P)](game/pandaclicker/index.html)
 
 
 
