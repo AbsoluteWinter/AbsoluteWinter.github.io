@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Tarot</title>
+        <title>Random Tarot [DEMO]</title>
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">  
@@ -17,11 +17,18 @@
             #main_text {
                 font-weight: bold;
             }
+            #credit {
+                padding-left: 20%;
+                padding-right: 20%;
+                font-size: 60%;
+            }
         </style>
     </head>
 
     <body>
-        <h1 class="w3-center">Random Tarot</h1>
+        <h1 class="w3-center"><strong>Random Tarot</strong></h1>
+        <p id="credit" align="center"><i>Tarot card interpretations data from</br>
+            Mark McElroy's <code>"Guide to Tarot Meanings"</code></i></br></p>
 
         <div class="w3-container text_box">
             <p id="main_text"></p>
@@ -33,5 +40,6 @@
         </div>
         
         <script src="script.js"></script>
+
     </body>
 </html>
