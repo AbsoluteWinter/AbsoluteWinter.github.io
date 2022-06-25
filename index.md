@@ -6,7 +6,7 @@
 
 # 📌 **PROJECT:**
 - [absfuyu](absfuyu/index.md)
-- [Panda Clicker (W.I.P)](game/pandaclicker/index.html)
+- [Random Tarot](https://absolutewinter.github.io/tarot)
 
 
 
@@ -27,8 +27,7 @@ Web: [https://absolutewinter.github.io/](https://absolutewinter.github.io/)
 <div>
     <img src="https://badges.pufler.dev/years/AbsoluteWinter" alt="Years Badge"  /> 
     <img src="https://badges.pufler.dev/repos/AbsoluteWinter" alt="AbsoluteWinter Repos Badge"  /> 
-    <img src="https://badges.pufler.dev/commits/monthly/AbsoluteWinter" alt="Updated
-   Badge"  /> 
+    <img src="https://badges.pufler.dev/commits/monthly/AbsoluteWinter" alt="Updated Badge"  /> 
     <!--Ref Link(badge):https://pufler.dev/git-badges/-->
 </div>
 <div>
@@ -36,23 +35,10 @@ Web: [https://absolutewinter.github.io/](https://absolutewinter.github.io/)
     <img height=160 alt="AbsoluteWinter most used language board" src="https://github-readme-streak-stats.herokuapp.com/?user=AbsoluteWinter&theme=swift&border=61dafb&hide_border=true" />
 <div>
 
-<details>
-    <summary><strong>Github Detail Analysis</strong></summary>
-
-[![top-lang](https://github-readme-stats.vercel.app/api/top-langs/?username=AbsoluteWinter&title_color=61dafb&text_color=ffffff&icon_color=61dafb&bg_color=20232a&langs_count=8&layout=compact&border_color=61dafb&hide_border=false)](https://github.com/AbsoluteWinter)
-
-[![trophy](https://github-profile-trophy.vercel.app/?username=AbsoluteWinter&theme=nord&column=7)](https://github.com/AbsoluteWinter)
-
-[![contribution-record](https://activity-graph.herokuapp.com/graph?username=AbsoluteWinter&theme=react-dark&bg_color=20232a&hide_border=true)](https://github.com/AbsoluteWinter)
-
-
-</details>
 
 
 ---
 
 <div align="center">
-
-<strong>END</strong>
-
+    <strong>END</strong>
 </div>

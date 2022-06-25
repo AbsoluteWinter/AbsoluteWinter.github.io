@@ -2,7 +2,7 @@
 
 // Game var
 var score = 0;
-var clickingPower = 100;
+var clickingPower = 1;
 
 // Upgrades
 var cursor = {cost: 15, amount: 0, name: "cursor", multiplier: 1};
