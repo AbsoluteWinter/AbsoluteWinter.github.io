@@ -1,0 +1,30 @@
+absfuyu.extensions package
+==========================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   absfuyu.extensions.dev
+   absfuyu.extensions.extra
+
+Submodules
+----------
+
+absfuyu.extensions.beautiful module
+-----------------------------------
+
+.. automodule:: absfuyu.extensions.beautiful
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.extensions
+   :members:
+   :undoc-members:
+   :show-inheritance:

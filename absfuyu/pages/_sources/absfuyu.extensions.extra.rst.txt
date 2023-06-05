@@ -1,0 +1,21 @@
+absfuyu.extensions.extra package
+================================
+
+Submodules
+----------
+
+absfuyu.extensions.extra.data\_analysis module
+----------------------------------------------
+
+.. automodule:: absfuyu.extensions.extra.data_analysis
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.extensions.extra
+   :members:
+   :undoc-members:
+   :show-inheritance:

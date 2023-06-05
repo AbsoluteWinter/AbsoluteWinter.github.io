@@ -1,0 +1,45 @@
+absfuyu.collections package
+===========================
+
+Submodules
+----------
+
+absfuyu.collections.content module
+----------------------------------
+
+.. automodule:: absfuyu.collections.content
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.collections.data\_extension module
+------------------------------------------
+
+.. automodule:: absfuyu.collections.data_extension
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.collections.generator module
+------------------------------------
+
+.. automodule:: absfuyu.collections.generator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.collections.human module
+--------------------------------
+
+.. automodule:: absfuyu.collections.human
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.collections
+   :members:
+   :undoc-members:
+   :show-inheritance:

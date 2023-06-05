@@ -1,0 +1,10 @@
+absfuyu.code\_red package
+=========================
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.code_red
+   :members:
+   :undoc-members:
+   :show-inheritance:

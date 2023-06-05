@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>absfuyu.extensions.dev.primo_cal &mdash; absfuyu 2.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> absfuyu
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules.html">absfuyu</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">absfuyu</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../../extensions.html">absfuyu.extensions</a></li>
+          <li class="breadcrumb-item"><a href="../dev.html">absfuyu.extensions.dev</a></li>
+      <li class="breadcrumb-item active">absfuyu.extensions.dev.primo_cal</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for absfuyu.extensions.dev.primo_cal</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Intertwined Fate Calculator</span>
+<span class="sd">---</span>
+<span class="sd">Note: Missing 60 primos in the monthly checkin app</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+
+<span class="c1"># Library</span>
+<span class="c1">##############################################################</span>
+<span class="kn">import</span> <span class="nn">math</span> <span class="k">as</span> <span class="nn">__math</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">dateutil.relativedelta</span> <span class="kn">import</span> <span class="n">relativedelta</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># from rich.jupyter import print</span>
+    <span class="c1"># from rich.panel import Panel</span>
+    <span class="c1"># from IPython.display import clear_output, display</span>
+    <span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">SystemExit</span>
+
+
+
+
+
+<span class="c1"># Function</span>
+<span class="c1">##############################################################</span>
+
+<span class="c1"># Core</span>
+<span class="c1">########################################</span>
+<span class="k">def</span> <span class="nf">__div_down</span><span class="p">(</span><span class="n">big_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">small_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Round down divided number</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">__math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">big_num</span> <span class="o">/</span> <span class="n">small_num</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="fate_result"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.fate_result">[docs]</a><span class="k">def</span> <span class="nf">fate_result</span><span class="p">(</span>
+        <span class="n">primogem</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">intertwined_fate</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">include_extra_fates_from_shop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">masterless_starglitter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">date_to_calculate_to</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">include_abyss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">abyss_star</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">include_extra_glitters_from_rolls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">include_extra_primogem</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">extra_primogem</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">have_welkin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">welkin_date_end</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">include_genesis_crystal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">genesis_crystal</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate intertwined fates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Constant variables</span>
+    <span class="n">DAILY_GEM</span> <span class="o">=</span> <span class="mi">60</span>
+    <span class="n">WELKIN_GEM</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">ABYSS_GEM</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">PRIMO_PER_FATE</span> <span class="o">=</span> <span class="mi">160</span>
+    <span class="n">GLITTER_PER_FATE</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">IFATE_MONTHLY_SHOP</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">ABYSS_CHAMBER_PER_FLOOR</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">ABYSS_INTERVAL</span> <span class="o">=</span> <span class="mi">14</span> <span class="c1"># days</span>
+    <span class="c1"># TODAY = datetime.now()</span>
+    <span class="n">DATE_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span>
+
+    <span class="c1"># Error check</span>
+    <span class="k">if</span> <span class="n">date_to_calculate_to</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">date_to_calculate_to</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">welkin_date_end</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">welkin_date_end</span> <span class="o">=</span> <span class="n">date_to_calculate_to</span>
+
+    <span class="c1"># Primogem</span>
+    <span class="n">_primo_day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date_to_calculate_to</span><span class="p">,</span> <span class="n">DATE_FORMAT</span><span class="p">)</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">_primo</span> <span class="o">=</span> <span class="n">_primo_day</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="n">DAILY_GEM</span>
+    <span class="n">_base_primo</span> <span class="o">=</span> <span class="n">_primo</span> <span class="o">+</span> <span class="n">primogem</span>
+    <span class="n">_total_primo</span> <span class="o">=</span> <span class="n">_base_primo</span>
+
+    <span class="c1"># Abyss</span>
+    <span class="n">_ab_time</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_primo_day</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="n">ABYSS_INTERVAL</span><span class="p">)</span>
+    <span class="n">_ab_gem</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">abyss_star</span><span class="p">,</span> <span class="n">ABYSS_CHAMBER_PER_FLOOR</span><span class="p">)</span> <span class="o">*</span> <span class="n">ABYSS_GEM</span> <span class="o">*</span><span class="n">_ab_time</span>
+
+    <span class="c1"># Welkin</span>
+    <span class="n">_w_day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">welkin_date_end</span><span class="p">,</span> <span class="n">DATE_FORMAT</span><span class="p">)</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">_w_primo</span> <span class="o">=</span> <span class="n">_w_day</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="n">WELKIN_GEM</span>
+  
+    <span class="c1"># Primogem Final</span>
+    <span class="n">_total_primo</span> <span class="o">=</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">_ab_gem</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">include_abyss</span><span class="p">)</span> <span class="o">+</span> <span class="n">_w_primo</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">have_welkin</span><span class="p">)</span> <span class="o">+</span>\
+         <span class="n">genesis_crystal</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">include_genesis_crystal</span><span class="p">)</span> <span class="o">+</span> <span class="n">extra_primogem</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">include_extra_primogem</span><span class="p">)</span>
+
+    <span class="c1"># Intertwined Fate</span>
+    <span class="n">_if1</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_total_primo</span><span class="p">,</span> <span class="n">PRIMO_PER_FATE</span><span class="p">)</span> <span class="c1"># Primogem</span>
+    <span class="n">_if2</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">masterless_starglitter</span><span class="p">,</span> <span class="n">GLITTER_PER_FATE</span><span class="p">)</span> <span class="c1"># Glitter</span>
+    <span class="n">_if3</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Extra fates from monthly shop</span>
+    <span class="k">if</span> <span class="n">_primo_day</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">:</span>
+        <span class="n">_if3</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_primo_day</span><span class="o">.</span><span class="n">days</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="o">*</span> <span class="n">IFATE_MONTHLY_SHOP</span>
+    <span class="n">_base_if</span> <span class="o">=</span> <span class="n">intertwined_fate</span> <span class="o">+</span> <span class="n">_if1</span> <span class="o">+</span> <span class="n">_if2</span> <span class="o">+</span> <span class="n">_if3</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">include_extra_fates_from_shop</span><span class="p">)</span>
+
+    <span class="c1"># Intertwined Fate - Extra glitters from rolls (worst case)</span>
+    <span class="n">_ex_gl</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_base_if</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="n">_ex_if</span> <span class="o">=</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_ex_gl</span><span class="p">,</span> <span class="n">GLITTER_PER_FATE</span><span class="p">)</span>
+
+    <span class="c1"># Intertwined Fate Final</span>
+    <span class="n">_total_if</span> <span class="o">=</span> <span class="n">_base_if</span> <span class="o">+</span> <span class="n">_ex_if</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">include_extra_glitters_from_rolls</span><span class="p">)</span>
+
+    <span class="c1"># Output</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_total_primo</span><span class="p">,</span>
+        <span class="s2">&quot;Total Intertwined Fates&quot;</span><span class="p">:</span> <span class="n">_total_if</span><span class="p">,</span>
+        <span class="s2">&quot;5-star character (worst case)&quot;</span><span class="p">:</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_total_if</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>
+        <span class="s2">&quot;5-star weapon (worst case)&quot;</span><span class="p">:</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_total_if</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="c1"># Output debug</span>
+    <span class="n">output_d</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;Primogems&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Current&quot;</span><span class="p">:</span> <span class="n">_total_primo</span><span class="p">,</span>
+            <span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Days to chosen date&quot;</span><span class="p">:</span> <span class="n">_primo_day</span><span class="o">.</span><span class="n">days</span><span class="p">,</span>
+                <span class="s2">&quot;Days to Primogem&quot;</span><span class="p">:</span> <span class="n">_primo</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_base_primo</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Abyss&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Abyss time&quot;</span><span class="p">:</span> <span class="n">_ab_time</span><span class="p">,</span>
+                <span class="s2">&quot;Abyss stars&quot;</span><span class="p">:</span> <span class="n">abyss_star</span><span class="p">,</span>
+                <span class="s2">&quot;Abyss stars to Primogem&quot;</span><span class="p">:</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">abyss_star</span><span class="p">,</span> <span class="n">ABYSS_CHAMBER_PER_FLOOR</span><span class="p">)</span> <span class="o">*</span> <span class="n">ABYSS_GEM</span><span class="p">,</span>
+                <span class="s2">&quot;Abyss Primogem&quot;</span><span class="p">:</span> <span class="n">_ab_gem</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">_ab_gem</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Welkin&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Welkin days to chosen date&quot;</span><span class="p">:</span> <span class="n">_w_day</span><span class="o">.</span><span class="n">days</span><span class="p">,</span>
+                <span class="s2">&quot;Welkin to Primogems&quot;</span><span class="p">:</span> <span class="n">_w_primo</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">_w_primo</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Genesis Crystal&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Genesis Crystal at disposal&quot;</span><span class="p">:</span> <span class="n">genesis_crystal</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">genesis_crystal</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Extra&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Extra Primgogems&quot;</span><span class="p">:</span> <span class="n">extra_primogem</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">extra_primogem</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Final&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Additional Primogems&quot;</span><span class="p">:</span> <span class="n">_ab_gem</span> <span class="o">+</span> <span class="n">_w_primo</span> <span class="o">+</span> <span class="n">genesis_crystal</span> <span class="o">+</span> <span class="n">extra_primogem</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems (no welkin)&quot;</span><span class="p">:</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">_ab_gem</span> <span class="o">+</span> <span class="n">genesis_crystal</span> <span class="o">+</span> <span class="n">extra_primogem</span><span class="p">,</span>
+                <span class="s2">&quot;Total Primogems&quot;</span><span class="p">:</span> <span class="n">_base_primo</span> <span class="o">+</span> <span class="n">_ab_gem</span> <span class="o">+</span> <span class="n">_w_primo</span> <span class="o">+</span> <span class="n">genesis_crystal</span> <span class="o">+</span> <span class="n">extra_primogem</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Intertwined Fates&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;Current&quot;</span><span class="p">:</span> <span class="n">_total_if</span><span class="p">,</span>
+            <span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Base&quot;</span><span class="p">:</span> <span class="n">intertwined_fate</span><span class="p">,</span>
+                <span class="s2">&quot;From Primogems (base)&quot;</span><span class="p">:</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_base_primo</span><span class="p">,</span> <span class="n">PRIMO_PER_FATE</span><span class="p">),</span>
+                <span class="s2">&quot;From Glitters&quot;</span><span class="p">:</span> <span class="n">_if2</span><span class="p">,</span>
+                <span class="s2">&quot;Extra from monthly shop&quot;</span><span class="p">:</span> <span class="n">_if3</span><span class="p">,</span>
+                <span class="s2">&quot;Total Intertwined Fates (no shop)&quot;</span><span class="p">:</span> <span class="n">intertwined_fate</span> <span class="o">+</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_base_primo</span><span class="p">,</span> <span class="n">PRIMO_PER_FATE</span><span class="p">)</span> <span class="o">+</span> <span class="n">_if2</span><span class="p">,</span>
+                <span class="s2">&quot;Total Intertwined Fates&quot;</span><span class="p">:</span> <span class="n">intertwined_fate</span> <span class="o">+</span> <span class="n">__div_down</span><span class="p">(</span><span class="n">_base_primo</span><span class="p">,</span> <span class="n">PRIMO_PER_FATE</span><span class="p">)</span> <span class="o">+</span> <span class="n">_if2</span> <span class="o">+</span> <span class="n">_if3</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Extra Glitters from rolls&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;Extra Glitters from rolls&quot;</span><span class="p">:</span> <span class="n">_ex_gl</span><span class="p">,</span>
+                <span class="s2">&quot;Extra Glitters from rolls to Fates&quot;</span><span class="p">:</span> <span class="n">_ex_if</span><span class="p">,</span>
+                <span class="s2">&quot;Current fates and extra&quot;</span><span class="p">:</span> <span class="n">_base_if</span> <span class="o">+</span> <span class="n">_ex_if</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;Intertwined Fates to Primogems&quot;</span><span class="p">:</span> <span class="n">_total_if</span> <span class="o">*</span> <span class="mi">160</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output_d</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># return output</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        [b]From [/][i]</span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">[/] [b]to[/] [i]</span><span class="si">{</span><span class="n">date_to_calculate_to</span><span class="si">}</span><span class="s2">[/]</span>
+
+<span class="s2">        [b]Intertwined Fate(s) gain (approx.): [cyan]</span><span class="si">{</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;Total Intertwined Fates&quot;</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">[/][/]</span>
+<span class="s2">        [i]Which is:</span>
+<span class="s2">        - Around [bold cyan]</span><span class="si">{</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;Total Intertwined Fates&quot;</span><span class="p">]</span><span class="o">*</span><span class="mi">160</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">[/] primogems</span>
+<span class="s2">        - Around [bold cyan]</span><span class="si">{</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;5-star character (worst case)&quot;</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">[/] 5-star character(s) (worst case)</span>
+<span class="s2">        - Around [bold cyan]</span><span class="si">{</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;5-star weapon (worst case)&quot;</span><span class="p">]</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2">[/] 5-star weapon(s) (worst case)</span>
+<span class="s2">        [/]&quot;&quot;&quot;</span></div>
+
+
+
+<span class="c1"># ipywidgets</span>
+<span class="c1">########################################</span>
+<div class="viewcode-block" id="get_layout"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.get_layout">[docs]</a><span class="k">def</span> <span class="nf">get_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">border</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    List of pre-made layout</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Layout</span>
+    <span class="n">width_auto_layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+        <span class="n">width</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">hbox_layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+        <span class="n">width</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">align_items</span><span class="o">=</span><span class="s2">&quot;stretch&quot;</span><span class="p">,</span>
+        <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span> <span class="c1"># &quot;solid 1px&quot;</span>
+        <span class="n">display</span><span class="o">=</span><span class="s2">&quot;flex&quot;</span><span class="p">,</span>
+        <span class="n">flex_flow</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
+        <span class="n">justify_content</span><span class="o">=</span><span class="s2">&quot;space-between&quot;</span>
+    <span class="p">)</span>
+    <span class="n">vbox_layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+        <span class="n">width</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">align_items</span><span class="o">=</span><span class="s2">&quot;stretch&quot;</span><span class="p">,</span>
+        <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">,</span>
+        <span class="n">display</span><span class="o">=</span><span class="s2">&quot;flex&quot;</span><span class="p">,</span>
+        <span class="n">flex_flow</span><span class="o">=</span><span class="s2">&quot;column&quot;</span><span class="p">,</span>
+        <span class="n">justify_content</span><span class="o">=</span><span class="s2">&quot;space-between&quot;</span>
+    <span class="p">)</span>
+    <span class="n">header_layout</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
+        <span class="n">width</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">border</span><span class="o">=</span><span class="s2">&quot;solid 2px&quot;</span><span class="p">,</span>
+        <span class="n">display</span><span class="o">=</span><span class="s2">&quot;flex&quot;</span><span class="p">,</span>
+        <span class="n">justify_content</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Output dict</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;autow&quot;</span><span class="p">:</span> <span class="n">width_auto_layout</span><span class="p">,</span>
+        <span class="s2">&quot;hbox&quot;</span><span class="p">:</span> <span class="n">hbox_layout</span><span class="p">,</span>
+        <span class="s2">&quot;vbox&quot;</span><span class="p">:</span> <span class="n">vbox_layout</span><span class="p">,</span>
+        <span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">header_layout</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Error check &amp; output</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="n">layout</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">SyntaxError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;List of layout: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="make_header"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.make_header">[docs]</a><span class="k">def</span> <span class="nf">make_header</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Header&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create quick header&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;header&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="make_intbox"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.make_intbox">[docs]</a><span class="k">def</span> <span class="nf">make_intbox</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="n">is_bounded</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="nb">min</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">1000000</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make IntBox</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+  
+    <span class="k">if</span> <span class="n">is_bounded</span><span class="p">:</span>
+        <span class="n">init_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntText</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;autow&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">init_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">BoundedIntText</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+            <span class="nb">min</span><span class="o">=</span><span class="nb">min</span><span class="p">,</span>
+            <span class="nb">max</span><span class="o">=</span><span class="nb">max</span><span class="p">,</span>
+            <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;autow&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+  
+    <span class="n">final_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">label</span><span class="p">),</span> <span class="n">init_box</span><span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;hbox&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_box</span></div>
+
+
+<div class="viewcode-block" id="make_date_select"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.make_date_select">[docs]</a><span class="k">def</span> <span class="nf">make_date_select</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Date to calculate to:&quot;</span><span class="p">):</span>
+    <span class="n">date_s</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">DatePicker</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span> <span class="o">+</span> <span class="n">relativedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;autow&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">date_select</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">widgets</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">label</span><span class="p">),</span> <span class="n">date_s</span><span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;hbox&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">date_select</span></div>
+
+
+<div class="viewcode-block" id="make_bool_box"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.make_bool_box">[docs]</a><span class="k">def</span> <span class="nf">make_bool_box</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">desc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">disabled</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                  <span class="n">button_style</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">tooltip</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">border</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">bool_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">ToggleButton</span><span class="p">(</span>
+        <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">desc</span><span class="p">,</span>
+        <span class="n">disabled</span><span class="o">=</span><span class="n">disabled</span><span class="p">,</span>
+        <span class="n">button_style</span><span class="o">=</span><span class="n">button_style</span><span class="p">,</span> <span class="c1"># &#39;success&#39;, &#39;info&#39;, &#39;warning&#39;, &#39;danger&#39; or &#39;&#39;</span>
+        <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;autow&quot;</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="n">border</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">bool_box</span></div>
+
+
+<div class="viewcode-block" id="make_gui"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.make_gui">[docs]</a><span class="k">def</span> <span class="nf">make_gui</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Make GUI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Make primogem int input box</span>
+    <span class="n">pg_int</span> <span class="o">=</span> <span class="n">make_intbox</span><span class="p">(</span><span class="s2">&quot;Primogem:&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Make intertwined fate int input box</span>
+    <span class="n">if_int</span> <span class="o">=</span> <span class="n">make_intbox</span><span class="p">(</span><span class="s2">&quot;Intertwined Fate:&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Make masterless starglitter int input box</span>
+    <span class="n">mg_int</span> <span class="o">=</span> <span class="n">make_intbox</span><span class="p">(</span><span class="s2">&quot;Masterless Starglitter:&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Make date select</span>
+    <span class="n">date_s</span> <span class="o">=</span> <span class="n">make_date_select</span><span class="p">()</span>
+
+    <span class="c1"># Make option box</span>
+    <span class="n">option_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span>
+        <span class="n">make_bool_box</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Include Fates from shop&quot;</span><span class="p">,</span>
+            <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Add Primogems from monthly shop reset&quot;</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="s2">&quot;solid 1px&quot;</span>
+        <span class="p">),</span>
+        <span class="n">make_bool_box</span><span class="p">(</span>
+            <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Include Glitters from rolls&quot;</span><span class="p">,</span>
+            <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Add Primogems from extra masterless glitters when gacha&quot;</span><span class="p">,</span>
+            <span class="n">border</span><span class="o">=</span><span class="s2">&quot;solid 1px&quot;</span>
+        <span class="p">)</span>
+    <span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Make base box</span>
+    <span class="n">base_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">([</span>
+        <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">pg_int</span><span class="p">,</span> <span class="n">if_int</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">)),</span>
+        <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span><span class="n">mg_int</span><span class="p">,</span> <span class="n">date_s</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">)),</span>
+        <span class="n">option_box</span>
+    <span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;autow&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Make Abyss box</span>
+    <span class="n">ab_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span>
+        <span class="n">make_bool_box</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Include abyss&quot;</span><span class="p">,</span>
+                        <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Add Primogems obtained by abyss&quot;</span><span class="p">),</span>
+        <span class="n">make_intbox</span><span class="p">(</span><span class="s2">&quot;Star:&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">,</span><span class="s2">&quot;solid 1px&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Make Genesis Crystal box</span>
+    <span class="n">genesis_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span>
+        <span class="n">make_bool_box</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Include Genesis Crystal&quot;</span><span class="p">,</span>
+                        <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Add Primogems when converting Genesis Crystals&quot;</span><span class="p">),</span>
+        <span class="n">make_intbox</span><span class="p">(</span><span class="s2">&quot;Genesis Crystal:&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">,</span><span class="s2">&quot;solid 1px&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Make welkin box</span>
+    <span class="n">welkin_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span>
+        <span class="n">make_bool_box</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Include Welkin&quot;</span><span class="p">,</span>
+                        <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Add Primogems when having Welkin&quot;</span><span class="p">),</span>
+        <span class="n">make_date_select</span><span class="p">()</span>
+    <span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">,</span><span class="s2">&quot;solid 1px&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Make extra box</span>
+    <span class="n">extra_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">([</span>
+        <span class="n">make_bool_box</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Include extra Primogem&quot;</span><span class="p">,</span>
+                        <span class="n">tooltip</span><span class="o">=</span><span class="s2">&quot;Add extra Primogems&quot;</span><span class="p">),</span>
+        <span class="n">make_intbox</span><span class="p">(</span><span class="s2">&quot;Extra:&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">,</span><span class="s2">&quot;solid 1px&quot;</span><span class="p">))</span>
+
+    <span class="c1"># Make option2 box</span>
+    <span class="n">option_box2</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">HBox</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">ab_box</span><span class="p">,</span> <span class="n">extra_box</span><span class="p">,</span> <span class="n">welkin_box</span><span class="p">,</span> <span class="n">genesis_box</span><span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;autow&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># # Make Calculate button</span>
+    <span class="c1"># cal_butt = widgets.Button(</span>
+    <span class="c1">#     description=&quot;Calculate!&quot;,</span>
+    <span class="c1">#     tooltip=&quot;Calculate number of Intertwined Fate&quot;</span>
+    <span class="c1"># )</span>
+
+    <span class="c1"># Make GUI</span>
+    <span class="n">final_box</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">VBox</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">base_box</span><span class="p">,</span> <span class="n">option_box2</span><span class="p">],</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">get_layout</span><span class="p">(</span><span class="s2">&quot;vbox&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Return GUI</span>
+    <span class="k">return</span> <span class="n">final_box</span></div>
+
+
+<div class="viewcode-block" id="get_value"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.get_value">[docs]</a><span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="n">gui</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get value from GUI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Extract data</span>
+    <span class="c1"># Pt. 01</span>
+    <span class="n">sector1</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># primo, fate, glit, date, shop, roll</span>
+    <span class="n">s1b1</span> <span class="o">=</span> <span class="n">sector1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># primo, fate</span>
+    <span class="n">prim</span> <span class="o">=</span> <span class="n">s1b1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># primo</span>
+    <span class="n">ifate</span> <span class="o">=</span> <span class="n">s1b1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># fate</span>
+
+    <span class="n">s1b2</span> <span class="o">=</span> <span class="n">sector1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># glit, date</span>
+    <span class="n">mglit</span> <span class="o">=</span> <span class="n">s1b2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># glit</span>
+    <span class="n">ndate</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">s1b2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="c1"># date</span>
+
+    <span class="n">s1b3</span> <span class="o">=</span> <span class="n">sector1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># shop, roll</span>
+    <span class="n">shop</span> <span class="o">=</span> <span class="n">s1b3</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># shop</span>
+    <span class="n">roll</span> <span class="o">=</span> <span class="n">s1b3</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># roll</span>
+
+    <span class="c1"># Pt. 02</span>
+    <span class="n">sector2</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># abyss, extra, welkin, genesis</span>
+    <span class="n">s2b1</span> <span class="o">=</span> <span class="n">sector2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># abyss</span>
+    <span class="n">ab_butt</span> <span class="o">=</span> <span class="n">s2b1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># bool</span>
+    <span class="n">ab_star</span> <span class="o">=</span> <span class="n">s2b1</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># star</span>
+    <span class="k">if</span> <span class="n">ab_star</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">:</span> <span class="n">ab_star</span> <span class="o">=</span> <span class="mi">36</span>
+
+    <span class="n">s2b2</span> <span class="o">=</span> <span class="n">sector2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># extra</span>
+    <span class="n">ex_butt</span> <span class="o">=</span> <span class="n">s2b2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># bool</span>
+    <span class="n">extragem</span> <span class="o">=</span> <span class="n">s2b2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># extra</span>
+
+    <span class="n">s2b3</span> <span class="o">=</span> <span class="n">sector2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># welkin</span>
+    <span class="n">we_butt</span> <span class="o">=</span> <span class="n">s2b3</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># bool</span>
+    <span class="n">wdate</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">s2b3</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="c1"># welkin date</span>
+
+    <span class="n">s2b4</span> <span class="o">=</span> <span class="n">sector2</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># genesis</span>
+    <span class="n">ge_butt</span> <span class="o">=</span> <span class="n">s2b4</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># bool</span>
+    <span class="n">genee</span> <span class="o">=</span> <span class="n">s2b4</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="c1"># genesis</span>
+
+    <span class="c1"># Output</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;primo&quot;</span><span class="p">:</span> <span class="n">prim</span><span class="p">,</span>
+        <span class="s2">&quot;ifate&quot;</span><span class="p">:</span> <span class="n">ifate</span><span class="p">,</span>
+        <span class="s2">&quot;glit&quot;</span><span class="p">:</span> <span class="n">mglit</span><span class="p">,</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">ndate</span><span class="p">,</span>
+        <span class="s2">&quot;inl_fate&quot;</span><span class="p">:</span> <span class="n">shop</span><span class="p">,</span>
+        <span class="s2">&quot;inl_glit&quot;</span><span class="p">:</span> <span class="n">roll</span><span class="p">,</span>
+        <span class="s2">&quot;inl_ab&quot;</span><span class="p">:</span> <span class="n">ab_butt</span><span class="p">,</span>
+        <span class="s2">&quot;star&quot;</span><span class="p">:</span> <span class="n">ab_star</span><span class="p">,</span>
+        <span class="s2">&quot;inl_ex&quot;</span><span class="p">:</span> <span class="n">ex_butt</span><span class="p">,</span>
+        <span class="s2">&quot;ex&quot;</span><span class="p">:</span> <span class="n">extragem</span><span class="p">,</span>
+        <span class="s2">&quot;inl_wel&quot;</span><span class="p">:</span> <span class="n">we_butt</span><span class="p">,</span>
+        <span class="s2">&quot;wdate&quot;</span><span class="p">:</span> <span class="n">wdate</span><span class="p">,</span>
+        <span class="s2">&quot;inl_gen&quot;</span><span class="p">:</span> <span class="n">ge_butt</span><span class="p">,</span>
+        <span class="s2">&quot;gen&quot;</span><span class="p">:</span> <span class="n">genee</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+
+<div class="viewcode-block" id="if_cal"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.if_cal">[docs]</a><span class="k">def</span> <span class="nf">if_cal</span><span class="p">(</span><span class="n">gui</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate from get_value(data)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_value</span><span class="p">(</span><span class="n">gui</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">fate_result</span><span class="p">(</span>
+        <span class="n">primogem</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;primo&quot;</span><span class="p">],</span>
+        <span class="n">intertwined_fate</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ifate&quot;</span><span class="p">],</span>
+        <span class="n">include_extra_fates_from_shop</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;inl_fate&quot;</span><span class="p">],</span>
+        <span class="n">masterless_starglitter</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;glit&quot;</span><span class="p">],</span>
+        <span class="n">date_to_calculate_to</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span>
+        <span class="n">include_abyss</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;inl_ab&quot;</span><span class="p">],</span>
+        <span class="n">abyss_star</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;star&quot;</span><span class="p">],</span>
+        <span class="n">include_extra_glitters_from_rolls</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;inl_glit&quot;</span><span class="p">],</span>
+        <span class="n">include_extra_primogem</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;inl_ex&quot;</span><span class="p">],</span>
+        <span class="n">extra_primogem</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ex&quot;</span><span class="p">],</span>
+        <span class="n">have_welkin</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;inl_wel&quot;</span><span class="p">],</span>
+        <span class="n">welkin_date_end</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;wdate&quot;</span><span class="p">],</span>
+        <span class="n">include_genesis_crystal</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;inl_gen&quot;</span><span class="p">],</span>
+        <span class="n">genesis_crystal</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;gen&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+
+<div class="viewcode-block" id="example"><a class="viewcode-back" href="../../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.primo_cal.example">[docs]</a><span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="n">option</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provide code tutorial to make this works</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">OPTION1</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">#@title **Intertwined Fate Calculator** {run: &quot;auto&quot;, vertical-output: true, display-mode: &quot;form&quot;}</span>
+
+<span class="s2"># Install Packages</span>
+<span class="s2">!pip install -U -q absfuyu[rich]</span>
+<span class="s2">!pip install -U -q rich[jupyter]</span>
+
+<span class="s2"># Import</span>
+<span class="s2">from absfuyu.extensions.dev.primo_cal import (</span>
+<span class="s2">    clear_output, display,</span>
+<span class="s2">    Panel, make_gui, if_cal, widgets</span>
+<span class="s2">)</span>
+<span class="s2">from rich.jupyter import print</span>
+<span class="s2">clear_output(wait=True)</span>
+
+<span class="s2"># Make GUI</span>
+<span class="s2">calculator = make_gui()</span>
+
+<span class="s2"># Make Calculate button</span>
+<span class="s2">cal_butt = widgets.Button(</span>
+<span class="s2">    description=&quot;Calculate!&quot;,</span>
+<span class="s2">    tooltip=&quot;Calculate number of Intertwined Fate&quot;</span>
+<span class="s2">)</span>
+
+<span class="s2">def on_button_clicked(b):</span>
+<span class="s2">    result = if_cal(calculator)</span>
+<span class="s2">    with output:</span>
+<span class="s2">        clear_output(wait=True)</span>
+<span class="s2">        print(Panel(result, title=&quot;[b]Result[/]&quot;))</span>
+
+<span class="s2">cal_butt.on_click(on_button_clicked)</span>
+
+<span class="s2"># Output</span>
+<span class="s2">output = widgets.Output()</span>
+
+<span class="s2"># Final</span>
+<span class="s2">display(calculator, cal_butt, output)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="c1"># Short ver</span>
+    <span class="n">OPTION2</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">#@title **Intertwined Fate Calculator** {run: &quot;auto&quot;, vertical-output: true, display-mode: &quot;form&quot;}</span>
+
+<span class="s2">!pip install -U -q absfuyu[rich]</span>
+<span class="s2">!pip install -U -q rich[jupyter]</span>
+
+<span class="s2">from absfuyu.extensions.dev.primo_cal import (</span>
+<span class="s2">    clear_output, display,</span>
+<span class="s2">    Panel, make_gui, if_cal, widgets</span>
+<span class="s2">)</span>
+<span class="s2">from rich.jupyter import print</span>
+<span class="s2">clear_output(wait=True)</span>
+
+<span class="s2">calculator = make_gui()</span>
+<span class="s2">cal_butt = widgets.Button(description=&quot;Calculate!&quot;)</span>
+<span class="s2">def on_button_clicked(b):</span>
+<span class="s2">    result = if_cal(calculator)</span>
+<span class="s2">    with output:</span>
+<span class="s2">        clear_output(wait=True)</span>
+<span class="s2">        print(Panel(result, title=&quot;[b]Result[/]&quot;))</span>
+<span class="s2">cal_butt.on_click(on_button_clicked)</span>
+
+<span class="s2">output = widgets.Output()</span>
+<span class="s2">display(calculator, cal_butt, output)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">OPTION1</span>
+    <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">OPTION2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">OPTION2</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, AbsoluteWinter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

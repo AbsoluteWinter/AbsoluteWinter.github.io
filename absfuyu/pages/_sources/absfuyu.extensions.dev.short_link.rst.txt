@@ -1,0 +1,21 @@
+absfuyu.extensions.dev.short\_link package
+==========================================
+
+Submodules
+----------
+
+absfuyu.extensions.dev.short\_link.rebrandly module
+---------------------------------------------------
+
+.. automodule:: absfuyu.extensions.dev.short_link.rebrandly
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.extensions.dev.short_link
+   :members:
+   :undoc-members:
+   :show-inheritance:

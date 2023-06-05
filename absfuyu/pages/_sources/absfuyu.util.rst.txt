@@ -1,0 +1,53 @@
+absfuyu.util package
+====================
+
+Submodules
+----------
+
+absfuyu.util.api module
+-----------------------
+
+.. automodule:: absfuyu.util.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.util.json\_method module
+--------------------------------
+
+.. automodule:: absfuyu.util.json_method
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.util.path module
+------------------------
+
+.. automodule:: absfuyu.util.path
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.util.performance module
+-------------------------------
+
+.. automodule:: absfuyu.util.performance
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.util.zipped module
+--------------------------
+
+.. automodule:: absfuyu.util.zipped
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.util
+   :members:
+   :undoc-members:
+   :show-inheritance:

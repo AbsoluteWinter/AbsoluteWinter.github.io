@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>absfuyu.collections.data_extension &mdash; absfuyu 2.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> absfuyu
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">absfuyu</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">absfuyu</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../collections.html">absfuyu.collections</a></li>
+      <li class="breadcrumb-item active">absfuyu.collections.data_extension</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for absfuyu.collections.data_extension</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Absfuyu: Data extension</span>
+<span class="sd">---</span>
+<span class="sd">Extension for data type such as `list`, `str`, ...</span>
+
+<span class="sd">Version: 1.1.2</span>
+<span class="sd">Date updated: 05/06/2023 (dd/mm/yyyy)</span>
+
+<span class="sd">Features:</span>
+<span class="sd">- Text</span>
+<span class="sd">- ListKai</span>
+<span class="sd">- DictKai</span>
+<span class="sd">- IntNumber</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># Module level</span>
+<span class="c1">###########################################################################</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Text&quot;</span><span class="p">,</span> <span class="s2">&quot;IntNumber&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ListKai&quot;</span><span class="p">,</span> <span class="s2">&quot;DictKai&quot;</span>
+<span class="p">]</span>
+
+
+<span class="c1"># Library</span>
+<span class="c1">###########################################################################</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">accumulate</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">absfuyu.collections.generator</span> <span class="kn">import</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Charset</span>
+<span class="kn">from</span> <span class="nn">absfuyu.logger</span> <span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_debug</span>
+<span class="kn">from</span> <span class="nn">absfuyu.util</span> <span class="kn">import</span> <span class="n">set_min_max</span>
+
+
+<span class="c1"># Class</span>
+<span class="c1">###########################################################################</span>
+<div class="viewcode-block" id="Text"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text">[docs]</a><span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `str` extension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Text.divide"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.divide">[docs]</a>    <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string_split_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Divide long string into smaller size</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        string_split_size : int</span>
+<span class="sd">            divide string every x character</span>
+<span class="sd">            (default: x = 60)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            A list in which each item is a smaller</span>
+<span class="sd">            string with the size of string_split_size</span>
+<span class="sd">            (need to be concaternate later)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">[:</span><span class="n">string_split_size</span><span class="p">])</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="n">string_split_size</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+    
+<div class="viewcode-block" id="Text.divide_with_variable"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.divide_with_variable">[docs]</a>    <span class="k">def</span> <span class="nf">divide_with_variable</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">split_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+            <span class="n">split_var_len</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="n">custom_var_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Divide long string into smaller size,</span>
+<span class="sd">        then assign a random variable to splited</span>
+<span class="sd">        string for later use</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        split_size : int</span>
+<span class="sd">            divide string every x character</span>
+<span class="sd">            (default: x = 60)</span>
+<span class="sd">        </span>
+<span class="sd">        split_var_len : int</span>
+<span class="sd">            length of variable name assigned to each item</span>
+<span class="sd">            (default: 12)</span>
+<span class="sd">        </span>
+<span class="sd">        custom_var_name : str</span>
+<span class="sd">            custom var name when join string</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            A list in which each item is a smaller</span>
+<span class="sd">            string with the size of split_size</span>
+<span class="sd">            and a way to concaternate them (when using print)</span>
+<span class="sd">        </span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; [&quot;qwerty&quot;,&quot;uiop&quot;]</span>
+
+<span class="sd">        [&quot;asd=&#39;qwerty&#39;&quot;,&quot;asx=&#39;uiop&#39;&quot;,&quot;asw=asd+asx&quot;,&quot;asw&quot;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">split_size</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="c1"># split variable</span>
+        <span class="n">splt_var_len</span> <span class="o">=</span> <span class="n">split_var_len</span>
+        <span class="n">splt_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">custom_var_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">splt_name</span> <span class="o">=</span> <span class="n">Generator</span><span class="o">.</span><span class="n">generate_string</span><span class="p">(</span>
+                <span class="n">charset</span><span class="o">=</span><span class="n">Charset</span><span class="o">.</span><span class="n">ALPHABET</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="n">split_var_len</span><span class="p">,</span>
+                <span class="n">times</span><span class="o">=</span><span class="n">splt_len</span><span class="o">+</span><span class="mi">1</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">splt_len</span><span class="p">):</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">splt_name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">splt_len</span><span class="p">):</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">custom_var_name</span><span class="si">}{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">temp</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        
+        <span class="c1"># joined variable</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">custom_var_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">splt_len</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">splt_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">splt_len</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">splt_name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">splt_name</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">+&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">splt_len</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">custom_var_name</span><span class="si">}</span><span class="s2">=&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">splt_len</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">custom_var_name</span><span class="si">}{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">custom_var_name</span><span class="si">}{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">+&quot;</span><span class="p">)</span>
+        
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">custom_var_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">splt_name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">custom_var_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="Text.analyze"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.analyze">[docs]</a>    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        String analyze (count number of type of character)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dictionary contains number of digit character,</span>
+<span class="sd">            uppercase character, lowercase character, and</span>
+<span class="sd">            special character</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="n">detail</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;digit&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;uppercase&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;lowercase&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;other&quot;</span><span class="p">:</span> <span class="mi">0</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">58</span><span class="p">):</span> <span class="c1">#num</span>
+                <span class="n">detail</span><span class="p">[</span><span class="s2">&quot;digit&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">91</span><span class="p">):</span> <span class="c1">#cap</span>
+                <span class="n">detail</span><span class="p">[</span><span class="s2">&quot;uppercase&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">123</span><span class="p">):</span> <span class="c1">#low</span>
+                <span class="n">detail</span><span class="p">[</span><span class="s2">&quot;lowercase&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">detail</span><span class="p">[</span><span class="s2">&quot;other&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="k">return</span> <span class="n">detail</span></div>
+    
+
+<div class="viewcode-block" id="Text.reverse"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reverse string&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="Text.is_pangram"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.is_pangram">[docs]</a>    <span class="k">def</span> <span class="nf">is_pangram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Check if string is a pangram</span>
+
+<span class="sd">            A pangram is a unique sentence in which</span>
+<span class="sd">            every letter of the alphabet is used at least once</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if string is a pangram</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">alphabet</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">alphabet</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Text.is_palindrome"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.is_palindrome">[docs]</a>    <span class="k">def</span> <span class="nf">is_palindrome</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Check if string is a palindrome</span>
+
+<span class="sd">            A palindrome is a word, verse, or sentence </span>
+<span class="sd">            or a number that reads the same backward or forward</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if string is a palindrome</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="c1"># Use string slicing [start:end:step]</span>
+        <span class="k">return</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+    
+<div class="viewcode-block" id="Text.to_hex"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.to_hex">[docs]</a>    <span class="k">def</span> <span class="nf">to_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Convert string to hex form</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        raw : bool</span>
+<span class="sd">            False: hex string in the form of `\x` (default)</span>
+<span class="sd">            True: normal hex string</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Hexed string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span>
+        
+        <span class="n">byte_str</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">hex_str</span> <span class="o">=</span> <span class="n">byte_str</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+              
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">str_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hex_str</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">str_len</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">x&quot;</span><span class="p">)</span>
+                <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hex_str</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">hex_str</span></div>
+
+<div class="viewcode-block" id="Text.random_capslock"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.Text.random_capslock">[docs]</a>    <span class="k">def</span> <span class="nf">random_capslock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">probability</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Randomly capslock letter in string</span>
+
+<span class="sd">        probability : int</span>
+<span class="sd">            probability in range [0, 100]</span>
+<span class="sd">            (default: 50)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">probability</span> <span class="o">=</span> <span class="n">set_min_max</span><span class="p">(</span><span class="n">probability</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">probability</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+            <span class="n">temp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="IntNumber"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber">[docs]</a><span class="k">class</span> <span class="nc">IntNumber</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `int` extension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># convert stuff</span>
+<div class="viewcode-block" id="IntNumber.to_binary"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.to_binary">[docs]</a>    <span class="k">def</span> <span class="nf">to_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convert to binary number&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="IntNumber.to_celcius_degree"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.to_celcius_degree">[docs]</a>    <span class="k">def</span> <span class="nf">to_celcius_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert into Celcius degree as if `self` is Fahrenheit degree</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">c_degree</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">-</span> <span class="mi">32</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1.8</span>
+        <span class="k">return</span> <span class="n">c_degree</span></div>
+    
+<div class="viewcode-block" id="IntNumber.to_fahrenheit_degree"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.to_fahrenheit_degree">[docs]</a>    <span class="k">def</span> <span class="nf">to_fahrenheit_degree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert into Fahrenheit degree as if `self` is Celcius degree</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f_degree</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="mf">1.8</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span>
+        <span class="k">return</span> <span class="n">f_degree</span></div>
+
+
+    <span class="c1"># is_stuff</span>
+<div class="viewcode-block" id="IntNumber.is_prime"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.is_prime">[docs]</a>    <span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Check if the integer is a prime number or not</span>
+
+<span class="sd">            A prime number is a natural number greater than 1</span>
+<span class="sd">            that is not a product of two smaller natural numbers.</span>
+<span class="sd">            A natural number greater than 1 that is not prime</span>
+<span class="sd">            is called a composite number.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if a prime number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="bp">self</span>
+        
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">number</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span><span class="c1"># divisor range</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+    
+<div class="viewcode-block" id="IntNumber.is_twisted_prime"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.is_twisted_prime">[docs]</a>    <span class="k">def</span> <span class="nf">is_twisted_prime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A number is said to be twisted prime if</span>
+<span class="sd">        it is a prime number and</span>
+<span class="sd">        reverse of the number is also a prime number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_prime</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;is prime: </span><span class="si">{</span><span class="n">prime</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">rev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span><span class="o">.</span><span class="n">is_prime</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;is prime when reversed: </span><span class="si">{</span><span class="n">rev</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prime</span> <span class="ow">and</span> <span class="n">rev</span></div>
+    
+<div class="viewcode-block" id="IntNumber.is_perfect"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.is_perfect">[docs]</a>    <span class="k">def</span> <span class="nf">is_perfect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Check if integer is perfect number</span>
+
+<span class="sd">            Perfect number: a positive integer that is</span>
+<span class="sd">            equal to the sum of its proper divisors.</span>
+<span class="sd">            The smallest perfect number is 6, which is</span>
+<span class="sd">            the sum of 1, 2, and 3.</span>
+<span class="sd">            Other perfect numbers are 28, 496, and 8,128.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if a perfect number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">###################################</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        # List of known perfect number</span>
+<span class="sd">        # Source: https://en.wikipedia.org/wiki/List_of_Mersenne_primes_and_perfect_numbers</span>
+<span class="sd">        perfect_number_index = [</span>
+<span class="sd">            2, 3, 5, 7,</span>
+<span class="sd">            13, 17, 19, 31, 61, 89,</span>
+<span class="sd">            107, 127, 521, 607,</span>
+<span class="sd">            1279, 2203, 2281, 3217, 4253, 4423, 9689, 9941,</span>
+<span class="sd">            11_213, 19_937, 21_701, 23_209, 44_497, 86_243,</span>
+<span class="sd">            110_503, 132_049, 216_091, 756_839, 859_433,</span>
+<span class="sd">            # 1_257_787, 1_398_269, 2_976_221, 3_021_377, 6_972_593,</span>
+<span class="sd">            # 13_466_917, 20_996_011, 24_036_583, 25_964_951,</span>
+<span class="sd">            # 30_402_457, 32_582_657, 37_156_667, 42_643_801,</span>
+<span class="sd">            # 43_112_609, 57_885_161,</span>
+<span class="sd">            ## 74_207_281, 77_232_917, 82_589_933</span>
+<span class="sd">        ]</span>
+<span class="sd">        perfect_number = []</span>
+<span class="sd">        for x in perfect_number_index:</span>
+<span class="sd">            # a perfect number have a form of (2**(n-1))*((2**n)-1)</span>
+<span class="sd">            perfect_number.append((2**(x-1))*((2**x)-1))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="bp">self</span>
+
+        <span class="n">perfect_number</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mi">6</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">496</span><span class="p">,</span> <span class="mi">8128</span><span class="p">,</span>
+            <span class="mi">33_550_336</span><span class="p">,</span> <span class="mi">8_589_869_056</span><span class="p">,</span>
+            <span class="mi">137_438_691_328</span><span class="p">,</span>
+            <span class="mi">2_305_843_008_139_952_128</span>
+        <span class="p">]</span>
+        
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="ow">in</span> <span class="n">perfect_number</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        
+        <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">perfect_number</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Faster way to check</span>
+            <span class="n">perfect_number_index</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="mi">61</span><span class="p">,</span> <span class="mi">89</span><span class="p">,</span> <span class="mi">107</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">521</span><span class="p">,</span> <span class="mi">607</span><span class="p">,</span> <span class="mi">1279</span><span class="p">,</span> <span class="mi">2203</span><span class="p">,</span> <span class="mi">2281</span><span class="p">,</span> <span class="mi">3217</span><span class="p">,</span>
+                <span class="mi">4253</span><span class="p">,</span> <span class="mi">4423</span><span class="p">,</span> <span class="mi">9689</span><span class="p">,</span> <span class="mi">9941</span><span class="p">,</span> <span class="mi">11_213</span><span class="p">,</span> <span class="mi">19_937</span><span class="p">,</span> <span class="mi">21_701</span><span class="p">,</span> <span class="mi">23_209</span><span class="p">,</span>
+                <span class="mi">44_497</span><span class="p">,</span> <span class="mi">86_243</span><span class="p">,</span> <span class="mi">110_503</span><span class="p">,</span> <span class="mi">132_049</span><span class="p">,</span> <span class="mi">216_091</span><span class="p">,</span> <span class="mi">756_839</span><span class="p">,</span>
+                <span class="mi">859_433</span><span class="p">,</span> <span class="mi">1_257_787</span><span class="p">,</span>
+                <span class="c1"># 1_398_269, 2_976_221, 3_021_377, 6_972_593,</span>
+                <span class="c1"># 13_466_917, 20_996_011, 24_036_583, 25_964_951,</span>
+                <span class="c1"># 30_402_457, 32_582_657, 37_156_667, 42_643_801,</span>
+                <span class="c1"># 43_112_609, 57_885_161,</span>
+                <span class="c1">## 74_207_281, 77_232_917, 82_589_933</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">perfect_number_index</span><span class="p">:</span>
+            <span class="c1"># a perfect number have a form of (2**(n-1))*((2**n)-1)</span>
+                <span class="n">perfect_number</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">*</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="n">perfect_number</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">elif</span> <span class="n">number</span> <span class="o">==</span> <span class="n">perfect_number</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            
+            <span class="c1"># Manual way when above method not working</span>
+            <span class="c1"># sum</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="c1"># add all divisors</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">while</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">number</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">+=</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="n">number</span><span class="o">/</span><span class="n">i</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># s == number -&gt; perfect</span>
+            <span class="k">return</span> <span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">number</span> <span class="ow">and</span> <span class="n">number</span><span class="o">!=</span><span class="mi">1</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IntNumber.is_narcissistic"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.is_narcissistic">[docs]</a>    <span class="k">def</span> <span class="nf">is_narcissistic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if a narcissistic number</span>
+
+<span class="sd">            In number theory, a narcissistic number</span>
+<span class="sd">            (also known as a pluperfect digital invariant (PPDI),</span>
+<span class="sd">            an Armstrong number (after Michael F. Armstrong)</span>
+<span class="sd">            or a plus perfect number) in a given number base `b`</span>
+<span class="sd">            is a number that is the sum of its own digits</span>
+<span class="sd">            each raised to the power of the number of digits.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">check</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">**</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">check</span></div>
+
+<div class="viewcode-block" id="IntNumber.reverse"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reverse a number&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+    
+<div class="viewcode-block" id="IntNumber.is_palindromic"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.is_palindromic">[docs]</a>    <span class="k">def</span> <span class="nf">is_palindromic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A palindromic number (also known as a numeral palindrome</span>
+<span class="sd">        or a numeric palindrome) is a number (such as 16461)</span>
+<span class="sd">        that remains the same when its digits are reversed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="IntNumber.is_palindromic_prime"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.is_palindromic_prime">[docs]</a>    <span class="k">def</span> <span class="nf">is_palindromic_prime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A palindormic prime is a number which is both palindromic and prime</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_palindromic</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_prime</span><span class="p">()</span></div>
+    
+
+    <span class="c1"># calculation stuff</span>
+<div class="viewcode-block" id="IntNumber.lcm"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.lcm">[docs]</a>    <span class="k">def</span> <span class="nf">lcm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Least common multiple of `self` and `with_number`&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">((</span><span class="bp">self</span> <span class="o">*</span> <span class="n">with_number</span><span class="p">)</span> <span class="o">//</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_number</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="IntNumber.add_to_one_digit"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.IntNumber.add_to_one_digit">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_one_digit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master_number</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert `self` into 1-digit number by add all of the digits together</span>
+
+<span class="sd">        master_number: bool</span>
+<span class="sd">            Break when sum = 22 or 11 (numerology)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current number: </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">number</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">master_number</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">number</span> <span class="o">==</span> <span class="mi">22</span> <span class="ow">or</span> <span class="n">number</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+                    <span class="k">break</span> <span class="c1"># Master number</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sum after loop: </span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="n">number</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ListKai"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai">[docs]</a><span class="k">class</span> <span class="nc">ListKai</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `list` extension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ListKai.stringify"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.stringify">[docs]</a>    <span class="k">def</span> <span class="nf">stringify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Convert all item in list into string</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            A list with all items with type: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ListKai</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ListKai.sorts"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.sorts">[docs]</a>    <span class="k">def</span> <span class="nf">sorts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Sort all items (with different type) in list</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reverse : bool</span>
+<span class="sd">            if True then sort in descending order</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list</span>
+<span class="sd">            A sorted list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">type_weights</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">type_weights</span><span class="p">:</span>
+                <span class="n">type_weights</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">type_weights</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type weight: </span><span class="si">{</span><span class="n">type_weights</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">lst</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">type_weights</span><span class="p">[</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)],</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span>
+        <span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+    
+<div class="viewcode-block" id="ListKai.freq"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.freq">[docs]</a>    <span class="k">def</span> <span class="nf">freq</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">num_of_first_char</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">appear_increment</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Summary</span>
+<span class="sd">        -------</span>
+<span class="sd">        Find frequency of each item in list</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sort : bool</span>
+<span class="sd">            if True: sort the dict in ascending order</span>
+<span class="sd">        </span>
+<span class="sd">        num_of_first_char : int</span>
+<span class="sd">            number of first character taken into account to sort</span>
+<span class="sd">            (default: None)</span>
+<span class="sd">            (num_of_first_char = 1: first character in each item)</span>
+<span class="sd">        </span>
+<span class="sd">        appear_increment : bool</span>
+<span class="sd">            return incremental index list of each item when sort</span>
+<span class="sd">            example:</span>
+<span class="sd">            original: [1,1,2,3,3,4,5,6]</span>
+<span class="sd">            appear_increment = [2, 3, 5, 6, 7, 8]</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            A dict that show frequency</span>
+<span class="sd">        </span>
+<span class="sd">        list</span>
+<span class="sd">            Incremental index list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">num_of_first_char</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">max_char</span> <span class="o">=</span> <span class="nb">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max character: </span><span class="si">{</span><span class="n">max_char</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">num_of_first_char</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_char</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not in </span><span class="si">{</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_char</span><span class="p">)</span><span class="si">}</span><span class="s2">. Using default value...&quot;</span><span class="p">)</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Freq of first </span><span class="si">{</span><span class="n">num_of_first_char</span><span class="si">}</span><span class="s2"> char&quot;</span><span class="p">)</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)[:</span><span class="n">num_of_first_char</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">])</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">times_appear</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">times_appear</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="vm">__class__</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">items</span><span class="p">())</span><span class="o">.</span><span class="n">sorts</span><span class="p">())</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="n">times_appear</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">appear_increment</span><span class="p">:</span>
+            <span class="n">times_appear_increment</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">accumulate</span><span class="p">(</span><span class="n">times_appear</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">))</span>
+            <span class="n">log_debug</span><span class="p">(</span><span class="n">times_appear_increment</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">times_appear_increment</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">times_appear</span></div>
+
+<div class="viewcode-block" id="ListKai.slice_points"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.slice_points">[docs]</a>    <span class="k">def</span> <span class="nf">slice_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Slices a list at specific indices into constituent lists.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># return [data[points[i]:points[i+1]] for i in range(len(points)-1)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">i1</span><span class="p">:</span><span class="n">i2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">points</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">points</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="ListKai.pick_one"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.pick_one">[docs]</a>    <span class="k">def</span> <span class="nf">pick_one</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pick one random items from list&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">out</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;List empty!&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+    
+<div class="viewcode-block" id="ListKai.len_items"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.len_items">[docs]</a>    <span class="k">def</span> <span class="nf">len_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;`len()` for every item in list&quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">ListKai</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="ListKai.mean_len"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.mean_len">[docs]</a>    <span class="k">def</span> <span class="nf">mean_len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Average length of every item&quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">len_items</span><span class="p">())</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+    
+<div class="viewcode-block" id="ListKai.apply"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Apply function to each entry&quot;&quot;&quot;</span>
+        <span class="c1"># return __class__(func(x) for x in self)</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ListKai.unique"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.ListKai.unique">[docs]</a>    <span class="k">def</span> <span class="nf">unique</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove duplicates&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="DictKai"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.DictKai">[docs]</a><span class="k">class</span> <span class="nc">DictKai</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    `dict` extension</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DictKai.analyze"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.DictKai.analyze">[docs]</a>    <span class="k">def</span> <span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyze all the key values (int, float) in dict then return highest/lowest index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dct</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="n">max_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dct</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+            <span class="n">min_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dct</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+            <span class="n">max_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">min_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">max_val</span><span class="p">:</span>
+                    <span class="n">max_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">min_val</span><span class="p">:</span>
+                    <span class="n">min_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+
+            <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="n">max_val</span><span class="p">,</span>
+                <span class="s2">&quot;min_value&quot;</span><span class="p">:</span> <span class="n">min_val</span><span class="p">,</span>
+                <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_list</span><span class="p">,</span>
+                <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="n">min_list</span>
+            <span class="p">}</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">output</span>
+        
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Value must be int or float&quot;</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="DictKai.swap_items"><a class="viewcode-back" href="../../../absfuyu.collections.html#absfuyu.collections.data_extension.DictKai.swap_items">[docs]</a>    <span class="k">def</span> <span class="nf">swap_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Swap keys with values&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="vm">__class__</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span></div></div>
+
+
+
+<span class="c1"># Run</span>
+<span class="c1">###########################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, AbsoluteWinter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

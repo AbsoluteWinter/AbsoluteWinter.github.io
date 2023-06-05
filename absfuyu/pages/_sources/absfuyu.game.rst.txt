@@ -1,0 +1,37 @@
+absfuyu.game package
+====================
+
+Submodules
+----------
+
+absfuyu.game.sudoku module
+--------------------------
+
+.. automodule:: absfuyu.game.sudoku
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.game.tictactoe module
+-----------------------------
+
+.. automodule:: absfuyu.game.tictactoe
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.game.wordle module
+--------------------------
+
+.. automodule:: absfuyu.game.wordle
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.game
+   :members:
+   :undoc-members:
+   :show-inheritance:

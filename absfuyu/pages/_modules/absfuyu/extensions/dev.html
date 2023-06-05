@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>absfuyu.extensions.dev &mdash; absfuyu 2.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> absfuyu
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">absfuyu</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">absfuyu</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../extensions.html">absfuyu.extensions</a></li>
+      <li class="breadcrumb-item active">absfuyu.extensions.dev</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for absfuyu.extensions.dev</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ABSFUYU WIP FEATURES</span>
+<span class="sd">--------------------</span>
+<span class="sd">WARNING: UNSTABLE</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;password_check&quot;</span><span class="p">,</span> <span class="s2">&quot;fib&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="c1"># import math</span>
+<span class="kn">import</span> <span class="nn">re</span> <span class="k">as</span> <span class="nn">__re</span>
+<span class="kn">import</span> <span class="nn">os</span> <span class="k">as</span> <span class="nn">__os</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="c1"># from typing import AnyStr as __AnyStr</span>
+<span class="c1"># from typing import Dict as __Dict</span>
+<span class="c1"># from typing import Iterable as __Iterable</span>
+<span class="c1"># from typing import List as __List</span>
+<span class="c1"># from typing import Optional as __Optional</span>
+<span class="c1"># from typing import Sequence as __Sequence</span>
+<span class="c1"># from typing import TypeVar as __TypeVar</span>
+<span class="c1"># from typing import Union as __Union</span>
+<span class="c1"># from typing import overload</span>
+
+
+
+<span class="n">__here</span> <span class="o">=</span> <span class="n">__os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+
+
+
+
+
+
+<span class="c1"># PASSWORD CHECKER</span>
+<div class="viewcode-block" id="password_check"><a class="viewcode-back" href="../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.password_check">[docs]</a><span class="k">def</span> <span class="nf">password_check</span><span class="p">(</span><span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verify the strength of &#39;password&#39;.</span>
+<span class="sd">    Returns a dict indicating the wrong criteria.</span>
+<span class="sd">    A password is considered strong if:</span>
+<span class="sd">    - 8 characters length or more</span>
+<span class="sd">    - 1 digit or more</span>
+<span class="sd">    - 1 symbol or more</span>
+<span class="sd">    - 1 uppercase letter or more</span>
+<span class="sd">    - 1 lowercase letter or more</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># calculating the length</span>
+    <span class="n">length_error</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">8</span>
+
+    <span class="c1"># searching for digits</span>
+    <span class="n">digit_error</span> <span class="o">=</span> <span class="n">__re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\d&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="c1"># searching for uppercase</span>
+    <span class="n">uppercase_error</span> <span class="o">=</span> <span class="n">__re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[A-Z]&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="c1"># searching for lowercase</span>
+    <span class="n">lowercase_error</span> <span class="o">=</span> <span class="n">__re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[a-z]&quot;</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="c1"># searching for symbols</span>
+    <span class="n">symbols</span> <span class="o">=</span> <span class="n">__re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[ !#$%&amp;&#39;()*+,-./[</span><span class="se">\\</span><span class="s2">\]^_`{|}~&quot;</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;&quot;]&#39;</span><span class="p">)</span>
+    <span class="n">symbol_error</span> <span class="o">=</span> <span class="n">symbols</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="n">detail</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;password_ok&#39;</span><span class="p">:</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span> <span class="c1"># overall result</span>
+            <span class="n">length_error</span><span class="p">,</span> <span class="n">digit_error</span><span class="p">,</span>
+            <span class="n">uppercase_error</span><span class="p">,</span> <span class="n">lowercase_error</span><span class="p">,</span>
+            <span class="n">symbol_error</span>
+        <span class="p">]),</span>
+        <span class="s1">&#39;length_error&#39;</span><span class="p">:</span> <span class="n">length_error</span><span class="p">,</span>
+        <span class="s1">&#39;digit_error&#39;</span><span class="p">:</span> <span class="n">digit_error</span><span class="p">,</span>
+        <span class="s1">&#39;uppercase_error&#39;</span><span class="p">:</span> <span class="n">uppercase_error</span><span class="p">,</span>
+        <span class="s1">&#39;lowercase_error&#39;</span><span class="p">:</span> <span class="n">lowercase_error</span><span class="p">,</span>
+        <span class="s1">&#39;symbol_error&#39;</span><span class="p">:</span> <span class="n">symbol_error</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">detail</span><span class="p">[</span><span class="s1">&#39;password_ok&#39;</span><span class="p">]</span></div>
+
+
+
+<span class="c1"># FIBONACCI WITH CACHE</span>
+<div class="viewcode-block" id="fib"><a class="viewcode-back" href="../../../absfuyu.extensions.dev.html#absfuyu.extensions.dev.fib">[docs]</a><span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Fibonacci (recursive)&quot;&quot;&quot;</span>
+    <span class="c1"># max recursion is 484</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span></div>
+
+
+
+
+<span class="c1"># PRIME NUMBERS (SMALLER THAN 100000 - 9592 NUMBERS)</span>
+<span class="c1"># from . import load_data as ld</span>
+<span class="c1"># PRIME_NUMBER = ld.toList(ld.LoadData(&quot;prime&quot;))</span>
+
+
+
+<span class="c1"># https://stackoverflow.com/questions/563022/whats-python-good-practice-for-importing-and-offering-optional-features</span>
+<span class="k">def</span> <span class="nf">__optional_import</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">package</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">importlib</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">module</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">package</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">package</span> <span class="o">=</span> <span class="n">module</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;install the &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39; package to make use of this feature&quot;</span>
+        <span class="n">import_error</span> <span class="o">=</span> <span class="n">e</span>
+
+        <span class="k">def</span> <span class="nf">_failed_import</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">import_error</span>
+
+        <span class="k">return</span> <span class="n">_failed_import</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, AbsoluteWinter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

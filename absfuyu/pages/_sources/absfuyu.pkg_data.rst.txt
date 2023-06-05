@@ -1,0 +1,10 @@
+absfuyu.pkg\_data package
+=========================
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.pkg_data
+   :members:
+   :undoc-members:
+   :show-inheritance:

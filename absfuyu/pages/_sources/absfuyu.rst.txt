@@ -1,0 +1,101 @@
+absfuyu package
+===============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   absfuyu.code_red
+   absfuyu.collections
+   absfuyu.config
+   absfuyu.contrib
+   absfuyu.extensions
+   absfuyu.game
+   absfuyu.pkg_data
+   absfuyu.tools
+   absfuyu.util
+
+Submodules
+----------
+
+absfuyu.calculation module
+--------------------------
+
+.. automodule:: absfuyu.calculation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.core module
+-------------------
+
+.. automodule:: absfuyu.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.everything module
+-------------------------
+
+.. automodule:: absfuyu.everything
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.fun module
+------------------
+
+.. automodule:: absfuyu.fun
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.logger module
+---------------------
+
+.. automodule:: absfuyu.logger
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.sort module
+-------------------
+
+.. automodule:: absfuyu.sort
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.unused module
+---------------------
+
+.. automodule:: absfuyu.unused
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.version module
+----------------------
+
+.. automodule:: absfuyu.version
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.version2 module
+-----------------------
+
+.. automodule:: absfuyu.version2
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu
+   :members:
+   :undoc-members:
+   :show-inheritance:

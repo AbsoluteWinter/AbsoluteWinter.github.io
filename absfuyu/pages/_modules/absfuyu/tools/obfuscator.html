@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>absfuyu.tools.obfuscator &mdash; absfuyu 2.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> absfuyu
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">absfuyu</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">absfuyu</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">absfuyu.tools.obfuscator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for absfuyu.tools.obfuscator</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Absfuyu: Obfuscator</span>
+<span class="sd">---</span>
+<span class="sd">Obfuscate code</span>
+
+<span class="sd">Version: 2.0.0</span>
+<span class="sd">Date updated: 05/06/2023 (dd/mm/yyyy)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># Module level</span>
+<span class="c1">###########################################################################</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Obfuscator&quot;</span>
+<span class="p">]</span>
+
+
+<span class="c1"># Library</span>
+<span class="c1">###########################################################################</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">codecs</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">zlib</span>
+
+<span class="kn">from</span> <span class="nn">absfuyu.logger</span> <span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">log_debug</span>
+<span class="kn">from</span> <span class="nn">absfuyu.collections.generator</span> <span class="kn">import</span> <span class="n">Generator</span> <span class="k">as</span> <span class="n">gen</span><span class="p">,</span> <span class="n">Charset</span>
+<span class="kn">from</span> <span class="nn">absfuyu.collections.data_extension</span> <span class="kn">import</span> <span class="n">Text</span>
+
+
+<span class="c1"># Class</span>
+<span class="c1">###########################################################################</span>
+<span class="k">class</span> <span class="nc">ObfuscatorLibraryList</span><span class="p">:</span>
+    <span class="n">BASE64_ONLY</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base64&quot;</span><span class="p">]</span>
+    <span class="n">FULL</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;base64&quot;</span><span class="p">,</span> <span class="s2">&quot;codecs&quot;</span><span class="p">,</span> <span class="s2">&quot;zlib&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Obfuscator"><a class="viewcode-back" href="../../../absfuyu.tools.html#absfuyu.tools.obfuscator.Obfuscator">[docs]</a><span class="k">class</span> <span class="nc">Obfuscator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Obfuscate code&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="o">*</span><span class="p">,</span>
+            <span class="n">base64_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">split_every</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+            <span class="n">variable_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="n">fake_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        code: Code text</span>
+<span class="sd">        base64_only: False: base64, compress, rot13 (default) | True: encode in base64 form only</span>
+<span class="sd">        split_every: Split the long line of code every `x` character</span>
+<span class="sd">        variable_length: Length of variable name (when data string split). Minimum is 7</span>
+<span class="sd">        fake_data: Generate additional meaningless data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_code</span> <span class="o">=</span> <span class="n">code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base64_only</span> <span class="o">=</span> <span class="n">base64_only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_every_length</span> <span class="o">=</span> <span class="n">split_every</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">variable_length</span> <span class="o">=</span> <span class="n">variable_length</span> <span class="k">if</span> <span class="n">variable_length</span> <span class="o">&gt;</span> <span class="mi">6</span> <span class="k">else</span> <span class="mi">7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fake_data</span> <span class="o">=</span> <span class="n">fake_data</span>
+
+        <span class="c1"># Setting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_library_import_variable_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_length</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_splited_variable_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decode_variable_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_length</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="c1"># logger.debug(&quot;Class initiated.&quot;)</span>
+    
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="c1"># temp = self.__dict__</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;base_code&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;base64_only&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">base64_only</span><span class="p">,</span>
+            <span class="s2">&quot;split_every_length&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_every_length</span><span class="p">,</span> 
+            <span class="s2">&quot;variable_length&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_length</span><span class="p">,</span>
+            <span class="s2">&quot;fake_data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">fake_data</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">temp</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Obfuscator.to_single_line"><a class="viewcode-back" href="../../../absfuyu.tools.html#absfuyu.tools.obfuscator.Obfuscator.to_single_line">[docs]</a>    <span class="k">def</span> <span class="nf">to_single_line</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert multiple lines of code into one line</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">newcode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_code</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+        <span class="n">log_debug</span><span class="p">(</span><span class="n">newcode</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;exec(bytes.fromhex(&#39;</span><span class="si">{</span><span class="n">newcode</span><span class="si">}</span><span class="s2">&#39;).decode(&#39;utf-8&#39;))&quot;</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_obfuscate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert multiple lines of code through multiple transformation</span>
+<span class="sd">        (base64 -&gt; compress -&gt; base64 -&gt; caesar (13))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_code</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Encoding...&quot;</span><span class="p">)</span>
+
+        <span class="n">b64_encode</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base64_only</span><span class="p">:</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">b64_encode</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">compressed_data</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">b64_encode</span><span class="p">)</span>
+            <span class="c1"># log_debug(compressed_data)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Compressed data: </span><span class="si">{</span><span class="n">compressed_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">b64_encode_2</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">compressed_data</span><span class="p">)</span>
+            <span class="c1"># log_debug(b64_encode_2)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Base64 encode 2: </span><span class="si">{</span><span class="n">b64_encode_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">caesar_data</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">b64_encode_2</span><span class="o">.</span><span class="n">decode</span><span class="p">(),</span> <span class="s2">&quot;rot_13&quot;</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">caesar_data</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output: </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Code encoded.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_convert_to_base64_decode</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert text into base64 and then return a code that decode that base64 code</span>
+<span class="sd">        </span>
+<span class="sd">        text: Code that need to convert</span>
+<span class="sd">        raw: Return hex form only</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">encode_codec</span> <span class="o">=</span> <span class="s2">&quot;rot_13&quot;</span>
+        <span class="n">b64_encode_codec</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">encode_codec</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">b64_decode_codec</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;base64.b64decode(&#39;</span><span class="si">{</span><span class="n">b64_encode_codec</span><span class="si">}</span><span class="s2">&#39;.encode())&quot;</span>
+        <span class="nb">hex</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">b64_decode_codec</span><span class="p">)</span><span class="o">.</span><span class="n">to_hex</span><span class="p">()</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;eval(&#39;</span><span class="si">{</span><span class="nb">hex</span><span class="si">}</span><span class="s2">&#39;).decode()&quot;</span>
+        <span class="k">if</span> <span class="n">raw</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">hex</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">_obfuscate_out</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert multiple lines of code through multiple transformation</span>
+<span class="sd">        (base64 -&gt; compress -&gt; base64 -&gt; caesar (13))</span>
+<span class="sd">        </span>
+<span class="sd">        Then return a list (obfuscated code) that can</span>
+<span class="sd">        be print or export into .txt file</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="c1"># Obfuscated code</span>
+        <span class="n">input_str</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obfuscate</span><span class="p">())</span>
+        
+        <span class="c1"># Generate output</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Import library</span>
+        <span class="n">library_list</span> <span class="o">=</span> <span class="n">ObfuscatorLibraryList</span><span class="o">.</span><span class="n">BASE64_ONLY</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base64_only</span> <span class="k">else</span> <span class="n">ObfuscatorLibraryList</span><span class="o">.</span><span class="n">FULL</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;import </span><span class="si">{</span><span class="n">lib</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">lib</span> <span class="ow">in</span> <span class="n">library_list</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lib: </span><span class="si">{</span><span class="n">temp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lib_hex</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp</span><span class="p">))</span><span class="o">.</span><span class="n">to_hex</span><span class="p">()</span> <span class="c1"># Convert to hex</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;exec(&#39;</span><span class="si">{</span><span class="n">lib_hex</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>        
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current output (import library): </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Append divided long text list</span>
+        <span class="n">input_list</span> <span class="o">=</span> <span class="n">input_str</span><span class="o">.</span><span class="n">divide_with_variable</span><span class="p">(</span>
+            <span class="n">split_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">split_every_length</span><span class="p">,</span>
+            <span class="n">split_var_len</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_splited_variable_length</span>
+        <span class="p">)</span>
+        <span class="n">encoded_str</span> <span class="o">=</span> <span class="n">input_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># Main var name that will later be used</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">input_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># Append list minus the last element</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current output (encoded code): </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Decode: encoded_str</span>
+        <span class="n">dc_name_lst</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">generate_string</span><span class="p">(</span>
+            <span class="n">charset</span><span class="o">=</span><span class="n">Charset</span><span class="o">.</span><span class="n">ALPHABET</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_decode_variable_length</span><span class="p">,</span>
+            <span class="n">times</span><span class="o">=</span><span class="mi">3</span>
+        <span class="p">)</span>
+        <span class="n">encode_codec</span> <span class="o">=</span> <span class="s2">&quot;rot_13&quot;</span> <span class="c1">#full</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">base64_only</span><span class="p">:</span> <span class="c1">#full</span>
+            <span class="n">hex_0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_to_base64_decode</span><span class="p">(</span><span class="n">encode_codec</span><span class="p">)</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">hex_0</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">hex_1</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;&lt;string&gt;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_hex</span><span class="p">()</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">hex_1</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="n">hex_2</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;exec&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_hex</span><span class="p">()</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">hex_2</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current output (decode variables): </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">base64_only</span><span class="p">:</span> <span class="c1">#b64</span>
+            <span class="n">pre_hex</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;eval(compile(base64.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;b64decode(</span><span class="si">{</span><span class="n">encoded_str</span><span class="si">}</span><span class="s2">),</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">))&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1">#full</span>
+            <span class="n">pre_hex</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;eval(compile(base64.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;b64decode(zlib.decompress(base64.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;b64decode(codecs.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;encode(</span><span class="si">{</span><span class="n">encoded_str</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">).&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;encode()))),</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">,</span><span class="si">{</span><span class="n">dc_name_lst</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">))&quot;</span>
+            <span class="p">)</span>
+        <span class="n">t_hex</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">pre_hex</span><span class="p">)</span><span class="o">.</span><span class="n">to_hex</span><span class="p">()</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;exec(&#39;</span><span class="si">{</span><span class="n">t_hex</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Current output (decode code): </span><span class="si">{</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Fake data</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fake_data</span><span class="p">:</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">generate_string</span><span class="p">(</span>
+                <span class="n">charset</span><span class="o">=</span><span class="n">Charset</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">input_str</span><span class="p">),</span>
+                <span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">string_type_if_1</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span> <span class="c1"># Generate fake data with len of original data</span>
+            <span class="n">f2</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">f1</span><span class="p">)</span><span class="o">.</span><span class="n">divide_with_variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">split_every_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_splited_variable_length</span><span class="p">)</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">f2</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            
+            <span class="c1"># Random data</span>
+            <span class="n">bait_lst</span> <span class="o">=</span> <span class="n">gen</span><span class="o">.</span><span class="n">generate_string</span><span class="p">(</span>
+                <span class="n">charset</span><span class="o">=</span><span class="n">Charset</span><span class="o">.</span><span class="n">ALPHABET</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_splited_variable_length</span><span class="p">,</span>
+                <span class="n">times</span><span class="o">=</span><span class="mi">25</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bait_lst</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">=&#39;</span><span class="si">{</span><span class="n">gen</span><span class="o">.</span><span class="n">generate_string</span><span class="p">(</span><span class="n">charset</span><span class="o">=</span><span class="n">Charset</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">split_every_length</span><span class="p">,</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">string_type_if_1</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            
+            <span class="n">random_eval_text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">)):</span>
+                <span class="n">random_eval_text</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;+</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">random_eval_text_final</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="n">random_eval_text</span><span class="p">)</span><span class="o">.</span><span class="n">to_hex</span><span class="p">()</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;eval(&#39;</span><span class="si">{</span><span class="n">random_eval_text_final</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Code obfuscated.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+    
+<div class="viewcode-block" id="Obfuscator.obfuscate"><a class="viewcode-back" href="../../../absfuyu.tools.html#absfuyu.tools.obfuscator.Obfuscator.obfuscate">[docs]</a>    <span class="k">def</span> <span class="nf">obfuscate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Obfuscate code&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obfuscate_out</span><span class="p">())</span></div></div>
+
+
+<span class="c1"># Run</span>
+<span class="c1">###########################################################################</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="s2">&quot;print(&#39;Hello World&#39;)&quot;</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">Obfuscator</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">fake_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">obfuscate</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, AbsoluteWinter.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

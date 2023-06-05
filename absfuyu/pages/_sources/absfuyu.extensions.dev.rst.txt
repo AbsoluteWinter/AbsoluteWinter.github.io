@@ -1,0 +1,69 @@
+absfuyu.extensions.dev package
+==============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   absfuyu.extensions.dev.short_link
+
+Submodules
+----------
+
+absfuyu.extensions.dev.WGS module
+---------------------------------
+
+.. automodule:: absfuyu.extensions.dev.WGS
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.extensions.dev.horoscope module
+---------------------------------------
+
+.. automodule:: absfuyu.extensions.dev.horoscope
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.extensions.dev.password\_hash module
+--------------------------------------------
+
+.. automodule:: absfuyu.extensions.dev.password_hash
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.extensions.dev.pkglib module
+------------------------------------
+
+.. automodule:: absfuyu.extensions.dev.pkglib
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.extensions.dev.primo\_cal module
+----------------------------------------
+
+.. automodule:: absfuyu.extensions.dev.primo_cal
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+absfuyu.extensions.dev.tarot module
+-----------------------------------
+
+.. automodule:: absfuyu.extensions.dev.tarot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: absfuyu.extensions.dev
+   :members:
+   :undoc-members:
+   :show-inheritance:
