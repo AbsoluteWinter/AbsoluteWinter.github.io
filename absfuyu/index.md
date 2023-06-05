@@ -61,7 +61,10 @@ and more
 
 ## **CONTINUE READING:**
 
-- [Module Documentation](pages/index.html)
+- [Module Documentation](pages/module_list.md)
+- [Extra packages](pages/ex_pack.md)
+- [Older version](pages/older_docs.md)
+- [Changelogs](pages/changelogs.md)
 
 <br>
 
