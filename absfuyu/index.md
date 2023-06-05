@@ -8,7 +8,7 @@
 		<a><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" /></a>
 	</p>
   	<h2 align="center">
-  		<strong>VERSION 1.5 DOCUMENTATION</strong>
+  		<strong>VERSION 2.0 DOCUMENTATION</strong>
 	</h2>
 </div>
 
@@ -61,7 +61,7 @@ and more
 
 ## **CONTINUE READING:**
 
-- [Module Documentation](pages/module_list.md)
+- [Module Documentation](https://absolutewinter.github.io/absfuyu-docs/)
 - [Extra packages](pages/ex_pack.md)
 - [Older version](pages/older_docs.md)
 - [Changelogs](pages/changelogs.md)
