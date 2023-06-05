@@ -51,10 +51,6 @@ from absfuyu import <module_name>
 ## **MODULE LIST:**
 ```
 calculation: use to calculate small thing
-data: some common data
-generator: generate stuff
-lists: some list method
-strings: some string method
 util: some random utilities
 ...
 and more
