@@ -3,13 +3,11 @@
 		<img src="images/repository-image-crop.png" alt="absfuyu"/>
 	</h1>
 	<p align="center">
+		<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/pyversions/absfuyu?style=flat-square" alt="PyPI Supported Versions"/></a>
 		<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/dm/absfuyu?style=flat-square" alt="pypi"/></a>
 		<a href="https://pypi.org/project/absfuyu/"><img src="https://img.shields.io/pypi/v/absfuyu?style=flat-square" /></a>
 		<a><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" /></a>
 	</p>
-  	<h2 align="center">
-  		<strong>VERSION 2.0 DOCUMENTATION</strong>
-	</h2>
 </div>
 
 ---
@@ -30,30 +28,15 @@ $ pip install -U absfuyu
 
 ## **USAGE:**
 
-### Built-in Help:
-```python
-import absfuyu
-absfuyu.help()
-```
-
 ### Python's Help function:
 ```python
+import absfuyu
 help(absfuyu)
 ```
 
 ### Import specific module:
 ```python
 from absfuyu import <module_name>
-```
-
-<br>
-
-## **MODULE LIST:**
-```
-calculation: use to calculate small thing
-util: some random utilities
-...
-and more
 ```
 
 
@@ -72,7 +55,7 @@ and more
 ```
 MIT License
 
-Copyright (c) 2022 AbsoluteWinter
+Copyright (c) 2022-2023 AbsoluteWinter
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

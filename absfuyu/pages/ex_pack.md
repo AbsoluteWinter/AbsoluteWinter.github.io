@@ -15,7 +15,9 @@ $ pip install -U absfuyu[<package_option>]
 
 ## **LIST OF PACKAGE:**
 
-[`cli`](#cli), [`beautiful`](#beautiful), [`dev`](#dev), [`extra`](#extra), [`test`](#test), [`fixers`](#fixers), [`all`](#all)
+[`cli`](#cli), [`beautiful`](#beautiful), [`dev`](#dev), [`extra`](#extra), [`test`](#test), [`tools`](#tools), [`all`](#all)
+
+Full list in `absfuyu.core.ModulePackage`
 
 ### **cli:**
 
@@ -91,15 +93,15 @@ $ pip install -U absfuyu[test]
 
 <br>
 
-### **fixers:**
+### **tools:**
 
 ```bash
-$ pip install -U absfuyu[fixers]
+$ pip install -U absfuyu[tools]
 ```
 
 **Feature:**
 
-- `[DEV]`: Use to make code easier to read
+- `requests` and `bs4` support
 
 <br>
 
